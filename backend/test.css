@@ -1,0 +1,298 @@
+.conf_c1_bgc {
+    background-color: rgba(71, 127, 204, 1);
+}
+
+.conf_c1_tc {
+    color: rgba(71, 127, 204, 1);
+}
+
+.conf_c1_borc {
+    border-color: rgba(71, 127, 204, 1);
+}
+
+.conf_c1_gradient1_bgc {
+    background-color: rgba(44, 75, 118, 1);
+    background-image: linear-gradient(to right, rgba(71, 127, 204, 0), rgba(71, 127, 204, 0.5));
+}
+
+.conf_c1_gradient1_tc {
+    color: rgba(44, 75, 118, 1);
+}
+
+.conf_c1_gradient2_bgc {
+    background-color: rgba(71, 127, 204, 1);
+    background-image: linear-gradient(to right, rgba(71, 127, 204, 0), rgba(71, 127, 204, 1));
+}
+
+.conf_c1_gradient2_tc {
+    color: rgba(71, 127, 204, 1);
+}
+
+.conf_c1_gradient_c2_bgc {
+    background-color: rgba(56, 98, 157, 1);
+    background-image: linear-gradient(to bottom, rgba(54, 95, 153, 1), rgba(71, 127, 204, 1));
+}
+
+.conf_c1_gradient_c2_tc {
+    color: rgba(56, 98, 157, 1);
+}
+
+.conf_c2_bgc {
+    background-color: rgba(54, 95, 153, 1);
+}
+
+.conf_c2_tc {
+    color: rgba(54, 95, 153, 1);
+}
+
+.conf_c2_alph1_bgc {
+    background-color: rgba(54, 95, 153, 0.3);
+}
+
+.conf_c2_alph1_tc {
+    color: rgba(54, 95, 153, 0.3);
+}
+
+.conf_c2_alph2_bgc {
+    background-color: rgba(54, 95, 153, 0.5);
+}
+
+.conf_c2_alph2_tc {
+    color: rgba(54, 95, 153, 0.5);
+}
+
+.conf_c3_bgc {
+    background-color: rgba(40, 71, 115, 1);
+}
+
+.conf_c3_tc {
+    color: rgba(40, 71, 115, 1);
+}
+
+.conf_c3_alph1_bgc {
+    background-color: rgba(40, 71, 115, 0.5);
+}
+
+.conf_c3_alph1_tc {
+    color: rgba(40, 71, 115, 0.5);
+}
+
+.conf_c3_gradient_bgc {
+    background-color: rgba(40, 71, 115, 0.3);
+    background-image: linear-gradient(to bottom, rgba(40, 71, 115, 0), rgba(40, 71, 115, 0.5));
+}
+
+.conf_c3_gradient_tc {
+    color: rgba(40, 71, 115, 0.3);
+}
+
+.conf_c4_bgc {
+    background-color: rgba(25, 44, 71, 1);
+}
+
+.conf_c4_tc {
+    color: rgba(25, 44, 71, 1);
+}
+
+.conf_c4_alph1_bgc {
+    background-color: rgba(25, 44, 71, 0.3);
+}
+
+.conf_c4_alph1_tc {
+    color: rgba(25, 44, 71, 0.3);
+}
+
+.conf_c4_alph2_bgc {
+    background-color: rgba(25, 44, 71, 0.5);
+}
+
+.conf_c4_alph2_tc {
+    color: rgba(25, 44, 71, 0.5);
+}
+
+.conf_c4_gradient_c3_bgc {
+    background-color: rgba(25, 44, 71, 0.5);
+    background-image: linear-gradient(to right, rgba(25, 44, 71, 0.5), rgba(40, 71, 115, 0.5));
+}
+
+.conf_c4_gradient_c3_tc {
+    color: rgba(25, 44, 71, 0.5);
+}
+
+.conf_notice_bgc {
+    background-color: rgba(255, 205, 105, 1);
+}
+
+.conf_notice_tc {
+    color: rgba(255, 205, 105, 1);
+}
+
+.conf_notice_alph1_bgc {
+    background-color: rgba(255, 205, 105, 0.1);
+}
+
+.conf_notice_alph1_tc {
+    color: rgba(255, 205, 105, 0.1);
+}
+
+.conf_success_bgc {
+    background-color: rgba(49, 245, 212, 1);
+}
+
+.conf_success_tc {
+    color: rgba(49, 245, 212, 1);
+}
+
+.conf_success_alph1_bgc {
+    background-color: rgba(49, 245, 212, 0.1);
+}
+
+.conf_success_alph1_tc {
+    color: rgba(49, 245, 212, 0.1);
+}
+
+.conf_error_bgc {
+    background-color: rgba(244, 105, 66, 1);
+}
+
+.conf_error_tc {
+    color: rgba(244, 105, 66, 1);
+}
+
+.conf_error_borc {
+    border-color: rgba(244, 105, 66, 1);
+}
+
+.conf_line_bgc {
+    background-color: rgba(48, 79, 124, 1);
+}
+
+.conf_line_tc {
+    color: rgba(48, 79, 124, 1);
+}
+
+.conf_line_borc {
+    border-color: rgba(48, 79, 124, 1);
+}
+
+.conf_line_lr_bgc {
+    background-color: rgba(48, 79, 124, 1);
+    background-image: linear-gradient(to right, rgba(48, 79, 124, 0), rgba(48, 79, 124, 1));
+}
+
+.conf_line_lr_tc {
+    color: rgba(48, 79, 124, 1);
+}
+
+.conf_line_tb_bgc {
+    background-color: rgba(48, 79, 124, 1);
+    background-image: linear-gradient(to bottom, rgba(48, 79, 124, 1), rgba(48, 79, 124, 0));
+}
+
+.conf_line_tb_tc {
+    color: rgba(48, 79, 124, 1);
+}
+
+.conf_line_tb_borc {
+    border-color: rgba(48, 79, 124, 1);
+    border-image: linear-gradient(to bottom, rgba(48, 79, 124, 1), rgba(48, 79, 124, 0));
+}
+
+.conf_line_bt_bgc {
+    background-color: rgba(48, 79, 124, 1);
+    background-image: linear-gradient(to up, rgba(48, 79, 124, 1), rgba(48, 79, 124, 0));
+}
+
+.conf_line_bt_tc {
+    color: rgba(48, 79, 124, 1);
+}
+
+.conf_line_bt_borc {
+    border-color: rgba(48, 79, 124, 1);
+    border-image: linear-gradient(to up, rgba(48, 79, 124, 1), rgba(48, 79, 124, 0));
+}
+
+.conf_a1_bgc {
+    background-color: rgba(233, 244, 255, 1);
+}
+
+.conf_a1_tc {
+    color: rgba(233, 244, 255, 1);
+}
+
+.conf_a1_alph1_bgc {
+    background-color: rgba(233, 244, 255, 0.5);
+}
+
+.conf_a1_alph1_tc {
+    color: rgba(233, 244, 255, 0.5);
+}
+
+.conf_a2_bgc {
+    background-color: rgba(176, 211, 253, 1);
+}
+
+.conf_a2_tc {
+    color: rgba(176, 211, 253, 1);
+}
+
+.conf_a3_bgc {
+    background-color: rgba(130, 160, 204, 1);
+}
+
+.conf_a3_tc {
+    color: rgba(130, 160, 204, 1);
+}
+
+.conf_a4_bgc {
+    background-color: rgba(79, 111, 149, 1);
+}
+
+.conf_a4_tc {
+    color: rgba(79, 111, 149, 1);
+}
+
+.conf_a5_bgc {
+    background-color: rgba(219, 179, 110, 1);
+}
+
+.conf_a5_tc {
+    color: rgba(219, 179, 110, 1);
+}
+
+.conf_bg1_bgc {
+    background-color: rgba(30, 49, 76, 1);
+}
+
+.conf_bg1_tc {
+    color: rgba(30, 49, 76, 1);
+}
+
+.conf_btn_bgc {
+    background-color: rgba(150, 128, 87, 1);
+    background-image: linear-gradient(to bottom, rgba(143, 120, 82, 1), rgba(183, 165, 109, 1));
+}
+
+.conf_btn_tc {
+    color: rgba(150, 128, 87, 1);
+}
+
+.conf_btn_border_borc {
+    border-width: 4px;
+    border-color: rgba(175, 152, 100, 1);
+    border-image: linear-gradient(to bottom, rgba(230, 208, 142, 1), rgba(175, 152, 100, 1));
+}
+
+.conf_btn_gery_bgc {
+    background-color: rgba(95, 100, 108, 1);
+    background-image: linear-gradient(to bottom, rgba(88, 93, 102, 1), rgba(101, 106, 113, 1));
+}
+
+.conf_btn_gery_tc {
+    color: rgba(95, 100, 108, 1);
+}
+
+.conf_btn_gery_border_borc {
+    border-color: rgba(100, 105, 112, 1);
+    border-image: linear-gradient(to bottom, rgba(117, 123, 128, 1), rgba(100, 105, 112, 1));
+}

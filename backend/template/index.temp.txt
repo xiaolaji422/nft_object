@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <meta name="keywords" content=""/>
+  <meta name="description" content=""/>
+  <meta name="apple-mobile-web-app-capable" content="no"/>
+  <meta name="format-detection" content="telephone=no">
+  <link href="/touch/newgames/default_h5/common/static/css/main.chunk.css" rel="stylesheet">
+  <style>
+    {{prod_style}}
+  </style>
+  <title> {{prod_name}}</title>
+  <script>
+    window.gameConfigData = {
+      ai_code: '1000014',
+      pro_code: '{{prod_code}}',
+      formID: '',
+    }
+  </script>
+</head>
+
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+<!--#include virtual="/touch/newgames/default_h5/common/common_js.html" -->
+</body>
+</html>
