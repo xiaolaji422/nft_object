@@ -88,7 +88,7 @@
         this.handleSubmitEditRole(item.id, item.name, index);
       },
       async getAllRoleRight() {
-        const roleData =await permissionStore().getRoleData()
+        const roleData = await permissionStore().getRoleData()
       
         this.roleList = roleData
         if (this.roleList && this.roleList.length) {
@@ -96,6 +96,8 @@
             id: this.roleList[0].id,
             name: this.roleList[0].name
           };
+        }else{
+          return 
         }
         for (let item of this.roleList) {
           let role_item = {
@@ -107,7 +109,6 @@
         }
         let id = this.roleList[0].id;
           this.getRoleRight(id);
-
       },
       getRoleRight(id) {
         permissionApi.getRoleRights({id: id}).then(res => {

@@ -57,14 +57,8 @@ import {permissionStore} from '@/store/modules/permission'
         {
           label: '最近编辑时间',
           width: 210,
-          prop:"update_time",
+          prop:"modified_time",
           align: 'center'
-        },
-        {
-          label: '用户全称',
-          align: 'center',
-          prop: 'full_name',
-          width: 220
         },
         {
           align: 'center',
@@ -76,18 +70,6 @@ import {permissionStore} from '@/store/modules/permission'
           align: 'center',
           label: '系统角色',
           prop: 'role_name',
-          width: 166
-        },
-        {
-          align: 'center',
-          label: '部门名',
-          prop: 'department_name',
-          width: 166
-        },
-        {
-          align: 'center',
-          label: '职位名称',
-          prop: 'post_name',
           width: 166
         },
         {
@@ -111,17 +93,9 @@ import {permissionStore} from '@/store/modules/permission'
           type: 'text',
           key: 'login_name',
           inputType: 'text',
-          placeholder: '请输入RTX搜索',
+          placeholder: '请输入账户名搜索',
           clearable: true,
-        },
-         {
-          label: '部门',
-          type: 'text',
-          key: 'department_name',
-          inputType: 'text',
-          placeholder: '所属部门搜索',
-          clearable: true
-        },
+        }
       ],
       tableHeaderRight: true
     })

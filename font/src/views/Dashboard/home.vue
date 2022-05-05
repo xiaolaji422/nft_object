@@ -1,7 +1,7 @@
 <template>
     <div class='content'>
         <el-card class='mb-2' shadow='hover'>
-            <div class='py-4 font-bold'>游戏管理系统</div>
+            <div class='py-4 font-bold'>NFT 辅助系统</div>
             <el-row>
                 <el-col :xs='24' :md='16'>
                     <div class='flex items-center'>

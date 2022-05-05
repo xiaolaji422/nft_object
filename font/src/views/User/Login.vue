@@ -2,6 +2,7 @@
     <div class='w-screen h-screen bg-gray-800'>
         <div class='layout-login' @keyup='enterSubmit'>
             <h3 class='text-2xl font-semibold text-gray-100 text-center mb-6'>NFT 辅助系统</h3>
+            <h3 class='text-2xl font-semibold text-gray-100 text-center mb-6'>账号登录</h3>
             <el-form ref='ruleForm' label-position='right' label-width='80px' :model='form' :rules='rules'>
                 <el-form-item class='mb-6 -ml-20' prop='name'>
                     <el-input v-model='form.name' placeholder='请输入用户名' prefix-icon='el-icon-user' />
@@ -26,7 +27,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import { useLayoutStore } from '@/store/modules/layout'
 import { ElNotification } from 'element-plus'
 import { validate } from '@/utils/formExtend'
-  import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 const formRender = () => {
     const { login } = useLayoutStore()
@@ -99,7 +100,7 @@ export default defineComponent({
 
 <style lang='postcss' scoped>
 .layout-login {
-    padding-top: 25%;
+    padding-top:400px;
     width: 400px;
     margin: 0 auto;
 

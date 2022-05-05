@@ -4,7 +4,6 @@ import (
 	"nft_object/app/core"
 	"nft_object/app/modules/admin/service"
 
-	"nft_object/library/helper"
 	"nft_object/library/response"
 	"nft_object/statusCode"
 
@@ -23,12 +22,6 @@ type adminApi struct {
 // 账户列表
 func (a *adminApi) Items(r *ghttp.Request) {
 	params := r.GetMap()
-	params["is_admin"] = 1
-	//  只能看配置过的
-	login_name := helper.GetMapValue(params, "login_name", "")
-	if len(gconv.String(login_name)) > 0 {
-		delete(params, "is_admin")
-	}
 	// 删除角色搜索
 	if _, ok := params["role_id"]; ok {
 		role_id := params["role_id"]

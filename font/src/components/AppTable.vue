@@ -580,7 +580,6 @@ export default defineComponent({
   z-index: 999;
   background-color:#fff ;
    overflow-x:auto ;
-   margin-top:-20px ;
   .custom_scroll_body{
     height: 1px;
   }
