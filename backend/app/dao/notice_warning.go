@@ -24,5 +24,3 @@ func init() {
 		internal.NewNoticeWarningDao(),
 	}
 }
-
-// Fill with you ideas below.

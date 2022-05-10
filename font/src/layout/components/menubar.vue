@@ -1,5 +1,6 @@
 <template>
     <el-menu
+        class="menu-panel"
         :mode='getMenubar.isPhone ? "vertical" : getSetting.mode'
         :default-active='activeMenu'
         :collapse='getMenubar.status === 1 || getMenubar.status === 3'
@@ -24,7 +25,6 @@ import MenubarItem from '@/layout/components/menubarItem.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { IMenubarList } from '@/type/store/layout'
 import { useLayoutStore } from '@/store/modules/layout'
-
 // 过滤隐藏的菜单，并提取单条的子菜单
 const filterMenubar = (menuList:IMenubarList[]) => {
     const f = (menuList:IMenubarList[]) => {
@@ -75,3 +75,15 @@ export default defineComponent ({
     }
 })
 </script>
+
+<style lang="scss" module>
+.login{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+</style>

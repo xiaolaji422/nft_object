@@ -71,7 +71,7 @@ import permissionApi from '@/api/permission'
 import { defineComponent ,ref, reactive, onMounted} from 'vue'
 import {permissionStore} from '@/store/modules/permission'
 import { $notificatioSuccess,$notificatioWarn } from "@/utils/utils";
-import { getMapData } from "@/utils/statusMap.js"
+import { getMapData } from "@/utils/statusMap"
 const components = defineComponent([
 ])
 

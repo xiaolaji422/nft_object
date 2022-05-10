@@ -10,4 +10,9 @@ import (
 
 	// 引入系统模块路由
 	_ "nft_object/app/modules/system"
+	// 引入接口
+	_ "nft_object/app/modules/router"
 )
+
+
+

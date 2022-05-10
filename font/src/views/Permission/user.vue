@@ -33,7 +33,6 @@ import { defineComponent, ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { $notificatioSuccess,$notificatioWarn } from "@/utils/utils";
 import AppTable from '@/components/AppTable.vue'
-import { getTableList,showFAQ,unshowFAQ,deleteFAQ } from '@/api/faq-conf-manage/index'
 import UserRole from "./components/UserRole.vue"
 import UserApis from "./components/UserApis.vue"
 import AddAdminRole from "./components/AddAdminRole.vue"
@@ -85,7 +84,7 @@ import {permissionStore} from '@/store/modules/permission'
       },
       tableListApi: (params:any) => permissionApi.getActivityList(params),
       tableListParams: {},
-      tableDeleteApi: (id: number) => deleteFAQ(id),
+      tableDeleteApi: (id: number) => ()=>{},
       tableDeleteParams: {},
       tableSearch: [
         {

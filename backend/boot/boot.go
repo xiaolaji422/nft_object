@@ -41,19 +41,9 @@ func init() {
 	s.SetErrorStack(c.GetBool("server.ErrorStack"))
 	s.SetDumpRouterMap(c.GetBool("server.DumpRouterMap"))
 
-	// s.SetServerRoot("/public")
-	// // 设置静态目录
-	// s.AddStaticPath("/public", "/public")
-	// 静态文件服务总开关：是否开启/关闭静态文件服务
-	// s.SetFileServerEnabled(true)
-	// 某些浏览器直接请求favicon.ico文件，特别是产生404时
-	// s.SetRewrite("/favicon.ico", "/public/favicon.ico")
-
 	// 开启平滑重启
 	s.EnableAdmin()
 	// 读取敏感词的词库到json
-	// var dirtyFilterMap = gcfg.Instance("dirtyFilterMap").ToMap()
-	// g.Config().Set("dirtyFilterMapPointer", dirtyFilterMap)
 	// 默认读取配置address
 	address := c.GetString("server.address", ":8222")
 	s.SetAddr(address)

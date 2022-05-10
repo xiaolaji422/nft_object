@@ -4,7 +4,6 @@ import router from '@/router'
 
 import { AxiosResponse } from "axios";
 import { ElLoading, ElMessage, ElNotification } from "element-plus";
-import { editFAQ } from "@/api/faq-conf-manage";
 import { useApptore } from '@/store/modules/app'
 import { flatMap } from "lodash";
 import { URL } from "url";
@@ -170,18 +169,10 @@ request.interceptors.response.use((response: AxiosResponse<IResponse>) => {
       return Promise.reject('没有权限');
     }else if (res.code == 1005) {
       // 暂时关闭登录;
-      let url = 'aHR0cHM6Ly9wYXNzcG9ydC53b2EuY29tL21vZHVsZXMvcGFzc3BvcnQvc2lnbmluLmFzaHg/b2F1dGg9dHJ1ZSZhcHBrZXk9dGVnX2tmd2ViJnVybD0=';
-      const args = getUrlArgs();
-      const hrefTxt = window.location.href.split('?')[0];
-      
-      if (hrefTxt.indexOf('mobileQuery') >= 0) {
-        url = window.atob(url) + decodeURIComponent(`${import.meta.env.VITE_BASE_URL}/admin/auth/loginByCode?mobile=${args.mobile}`);
-      } else {
-        url = window.atob(url) + decodeURIComponent(`${import.meta.env.VITE_BASE_URL}/admin/auth/loginByCode`);
-      }
-      window.location.href =  url;
+      router.replace({path: '/Login'});
+      return Promise.reject('未登录');
     }else if (res.code == 1004) {
-      const url = window.atob('aHR0cHM6Ly9wYXNzcG9ydC53b2EuY29tL21vZHVsZXMvcGFzc3BvcnQvc2lnbm91dC5hc2h4P3VybD1odHRwJTNBJTJGJTJGanp0Zi53b2EuY29t');
+      router.replace({path: '/Login'});
       // window.location.href =  url;
       return Promise.reject('未登陆');
     }else if (res.code !== 0) {

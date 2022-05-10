@@ -57,17 +57,19 @@ export const allowRouter: Array<IMenubarList> = [
         component: Components.Redirect,
       },
     ],
-  },
-  {
+  },{
     name: "Login",
     path: "/Login",
     component: Components.Login,
     meta: { title: "登录", icon: "el-icon-eleme", hidden: true },
-  },{
+    children:[],
+  },
+  {
     name: "Register",
     path: "/Register",
     component: Components.Register,
     meta: { title: "注册", icon: "el-icon-eleme", hidden: true },
+    children:[],
   }
 ];
 

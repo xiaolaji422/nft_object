@@ -23,6 +23,15 @@ func InArray(a interface{}, v interface{}) bool {
 	return false
 }
 
+func FindStr(slice []string, val string) int {
+	for i, item := range slice {
+		if item == val {
+			return i
+		}
+	}
+	return -1
+}
+
 // Contain 判断searchkey是否在target中，target支持的类型arrary,slice,map
 func Contain(searchkey interface{}, target interface{}) bool {
 	targetValue := reflect.ValueOf(target)

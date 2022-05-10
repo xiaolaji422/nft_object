@@ -2,15 +2,15 @@ import request from '@/utils/request';
 
 export default {
     // 登出
-    loginOut(data) {
+    loginOut(data:any) {
         return request({
             url: '/admin/auth/loginOut',
-            method: 'GET',
+            method: 'POST',
             params: {...data },
         });
     },
     // 登录
-    login(data) {
+    login(data:any) {
         return request({
             url: '/admin/auth/login',
             method: 'POST',
@@ -18,7 +18,7 @@ export default {
         });
     },
     // 注册
-    register(data) {
+    register(data:any) {
         return request({
             url: '/admin/auth/register',
             method: 'POST',

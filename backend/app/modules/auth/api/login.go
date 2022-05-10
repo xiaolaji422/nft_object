@@ -26,7 +26,6 @@ func (a *loginApi) LoginOut(r *ghttp.Request) {
 	r.Session.Clear()
 	host := r.GetHost()
 	// 跳转
-	// client_url := "http://" + host + "/#/dashboard"
 	response.Json(r, statusCode.SUCCESS, "success", host)
 }
 

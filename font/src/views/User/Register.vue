@@ -111,7 +111,7 @@ export default defineComponent({
 
 <style lang='postcss' scoped>
 .layout-login {
-    padding-top: 400px;
+    padding-top: 10%;
     width: 400px;
     margin: 0 auto;
 

@@ -122,6 +122,7 @@
       element-loading-spinner="el-icon-loading"
       @selection-change="handleSelectionChange"
       @sort-change="changeSort"
+      @cell-click="handleCellClick"
     >
       <template v-for="(item, index) in appConfig.tableColumn" :key="index">
         <!--多选框-->
@@ -332,6 +333,9 @@ export default defineComponent({
     const handleView = row => {
       emit('handleView', row)
     }
+    const handleCellClick = (event:any)=>{
+      emit("cell-click",event)
+    }
     const handleDelete = row => {
       if (!appConfig.isDelete) {
         return
@@ -530,6 +534,7 @@ export default defineComponent({
       scrollWidth,
       customScrollRef,
       scrollChange,
+      handleCellClick,
     }
   }
 })

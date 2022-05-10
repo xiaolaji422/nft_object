@@ -165,35 +165,17 @@ func OutputFileByByte(r *ghttp.Request, data []byte) {
 
 // CheckAuthSession check系统登录(tof接口)
 func CheckAuthSession(r *ghttp.Request) {
-	// 去除本地测试
-	origin := r.GetHeader("Origin")
-
-	envStr := g.Config().GetString("server.envStr", "pro")
-
-	urlPares, err := url.Parse(origin)
-	if err != nil {
-		Json(r, statusCode.ERROR, "url pares error:"+err.Error())
-		r.Exit()
-	}
 	// 本地测试环境
-	localDev := []string{"localhost:3002"}
 	sessionInfo := r.Session.Get(statusCode.SESSION_ADMIN_INFO)
 	if sessionInfo == nil {
-		if envStr == "local" || (gstr.InArray(gconv.SliceStr(localDev), urlPares.Host) && envStr != "pro") {
-			// 本地连上测试服测试
-			sessionInfo = g.Map{
-				"login_name":  "fourteen",
-				"super_admin": 1,
-			}
-			r.Session.Set(statusCode.SESSION_ADMIN_INFO, sessionInfo)
-		} else {
-			Json(r, statusCode.ERROR_NO_LOGIN, "Not logged in")
-			r.Exit()
-		}
+
+		Json(r, statusCode.ERROR_NO_LOGIN, "Not logged in")
+		r.Exit()
+
 	}
 	adminInfo := gconv.Map(sessionInfo)
 	// 超级管理员账户设置
-	superAdmin := gconv.SliceStr(g.Config().GetArray("auth.superAdmin", []string{"topwang"}))
+	superAdmin := gconv.SliceStr(g.Config().GetArray("auth.superAdmin", []string{"fourteen"}))
 	login_name := helper.GetMapValue(adminInfo, "login_name", "")
 	if gstr.InArray(superAdmin, gconv.String(login_name)) {
 		adminInfo["super_admin"] = 1

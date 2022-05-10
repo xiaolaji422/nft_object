@@ -14,12 +14,12 @@
 
     <div class='flex items-center flex-row-reverse px-4 min-width-32'>
         <!-- 用户下拉 -->
-        <el-dropdown>
+        <!-- <el-dropdown>
             <span class='el-dropdown-link flex flex-center px-2'>
                 <span class='ml-2 mr-5'>{{ userInfo.name }}</span>
                 <el-button type='text' @click='logout'>退出登录</el-button>
             </span>
-        </el-dropdown>
+        </el-dropdown> -->
 
     </div>
 </template>

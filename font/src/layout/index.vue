@@ -16,10 +16,12 @@
                 <span v-if='getMenubar.status === 0 || getMenubar.status === 2' class='pl-2'>NFT 辅助系统</span>
             </div>
             <div class='layout-sidebar-menubar flex flex-1 overflow-hidden'>
-                <el-scrollbar wrap-class='scrollbar-wrapper'>
+                <el-scrollbar wrap-class='scrollbar-wrapper' style="height:100%">
                     <layout-menubar />
                 </el-scrollbar>
             </div>
+
+        <div class="login-out" @click="handleLoginOut"> <i class="el-icon-remove"></i> {{`退出登录`}}</div>
         </div>
         <div class='layout-main flex flex-1 flex-col overflow-x-hidden overflow-y-auto'>
             <div class='layout-main-navbar flex justify-between items-center h-12 shadow-sm overflow-hidden relative z-10'>
@@ -43,7 +45,9 @@ import LayoutSideSetting from '@/layout/components/sideSetting.vue'
 import { throttle } from '@/utils/tools'
 import { useLayoutStore } from '@/store/modules/layout'
 import icon from '@/assets/img/icon.png'
-
+import { confirm ,notify} from '@/utils/notify';
+import loginApi from '@/api/login'
+import router from '@/router'
 export default defineComponent ({
     name: 'Layout',
     components: {
@@ -65,11 +69,28 @@ export default defineComponent ({
             window.addEventListener('resize', throttleF, true)
         })
 
+        const handleLoginOut =async ()=>{
+                const isOk = await confirm.warning('您确定要退出登录系统吗');
+                if (!isOk) {
+                    return;
+                }
+                const result: any = await loginApi.loginOut({});
+                if (result !== false) {
+                    notify.success('退出登录成功');
+                    setTimeout(() => {
+                        router.push({
+                            path:"/Login"
+                        })
+                    }, 500);
+                }
+        }
+
         return {
             getMenubar,
             getSetting,
             changeCollapsed,
             icon,
+            handleLoginOut,
         }
     }
 })
@@ -90,5 +111,15 @@ export default defineComponent ({
     }
     .layout-sidebar-menubar {
         background-color: #213968!important;
+    }
+
+    .login-out{
+        color:#ffffff;
+        position: fixed;
+        bottom: 10px;
+        width: 240px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

@@ -45,7 +45,6 @@ func (s *loginService) LoginOut(r *ghttp.Request) error {
 	if err != nil {
 		return err
 	}
-	r.Session.Clear()
 	return nil
 }
 

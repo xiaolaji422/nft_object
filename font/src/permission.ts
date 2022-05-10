@@ -7,8 +7,8 @@ import { useLocal } from '@/utils/tools'
 
 configure({ showSpinner: false })
 
-const loginRoutePath = '/Dashboard/Workplace'
-const defaultRoutePath = '/Dashboard/Workplace'
+const loginRoutePath = '/Login'
+const defaultRoutePath = '/notice/index'
 
 router.beforeEach(async(to, from) => {
     start()

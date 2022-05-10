@@ -1,30 +1,32 @@
 export const _asyncRoutes = [
+  // {
+  //   name: "Dashboard",
+  //   path: "/",
+  //   component: () => import('@/layout/index.vue'),
+  //   redirect: "/Dashboard/Workplace",
+  //   meta: { title: "仪表盘", icon: "el-icon-eleme" },
+  //   children: [
+  //     {
+  //       name: "Workplace",
+  //       path: "/Dashboard/Workplace",
+  //       component: () => import('@/views/Dashboard/home.vue'),
+  //       meta: { title: "首页(正式服v1.0.2)", icon: "el-icon-s-tools" },
+  //     }
+  //   ],
+  // },
   {
-    name: "Dashboard",
     path: "/",
+    name: "Notice",
+    alwaysShow: true, 
     component: () => import('@/layout/index.vue'),
-    redirect: "/Dashboard/Workplace",
-    meta: { title: "仪表盘", icon: "el-icon-eleme" },
+    redirect: "/notice/index",
+    meta: { title: "公告告警", icon: "el-icon-document",img: 'authActive'},
     children: [
       {
-        name: "Workplace",
-        path: "/Dashboard/Workplace",
-        component: () => import('@/views/Dashboard/home.vue'),
-        meta: { title: "首页(正式服v1.0.2)", icon: "el-icon-s-tools" },
-      }
-    ],
-  },{
-    path: "/tableDemo",
-    name: "table",
-    component: () => import('@/layout/index.vue'),
-    redirect: "/tableDemo/index",
-    meta: { title: "仪表盘", icon: "el-icon-eleme",hidden:true},
-    children: [
-      {
-        path: "/tableDemo/index",
-        name: "tableDemo",
-        component: () => import('@/views/tableDemo/index.vue'),
-        meta: { title: "表单示例", icon: "el-icon-s-tools" },
+        path: "/notice/index",
+        name: "NoticeIndex",
+        component: () => import('@/views/Notice/index.vue'),
+        meta: { title: "公告告警" },
       }
     ],
   },
