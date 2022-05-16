@@ -5,7 +5,7 @@
             <h3 class='text-2xl font-semibold text-gray-100 text-center mb-6'>账号登录</h3>
             <el-form ref='ruleForm' label-position='right' label-width='80px' :model='form' :rules='rules'>
                 <el-form-item class='mb-6 -ml-20' prop='name'>
-                    <el-input v-model='form.name' placeholder='请输入用户名' prefix-icon='el-icon-user' />
+                    <el-input v-model='form.name' placeholder='请输入用户名(英文和数字)' prefix-icon='el-icon-user' />
                 </el-form-item>
                 <el-form-item class='mb-6 -ml-20' prop='pwd'>
                     <el-input v-model='form.pwd' placeholder='请输入密码' prefix-icon='el-icon-lock' show-password />
@@ -28,12 +28,17 @@ import { useLayoutStore } from '@/store/modules/layout'
 import { ElNotification } from 'element-plus'
 import { validate } from '@/utils/formExtend'
 import { useRouter } from 'vue-router'
-
+import { decode } from '@/utils/tools'
+import api from '@/api/login'
+import { flatMap } from 'lodash'
+// import {WarnningStop} from "@/utils/audioPlay"
+import {playerStore} from "@/store/modules/palyser"
+const {Loadding} = playerStore()
 const formRender = () => {
-    const { login } = useLayoutStore()
+    const { setUserInfo } = useLayoutStore()
     let form = reactive({
-        name: 'admin',
-        pwd: 'admin'
+        name: '',
+        pwd: ''
     })
     const ruleForm = ref(null)
     const enterSubmit = (e:KeyboardEvent) => {
@@ -44,7 +49,18 @@ const formRender = () => {
     const onSubmit = async() => {
         let { name, pwd } = form
         if(!await validate(ruleForm)) return
-        await login({ username: name, password: pwd })
+        const res = await api.login({ username: name, password: pwd })
+        if (res && res.data && res.data.login_name){
+            // 登录成功
+            setUserInfo(res.data)
+            // 注册播放器
+            // WarnningStop()
+            Loadding()
+            // 跳转
+             const { query } = router.currentRoute.value
+             router.push(typeof query.from === 'string' ? decode(query.from) : '/')
+
+        }
         ElNotification({
             title: '欢迎',
             message: '欢迎回来',
@@ -63,6 +79,10 @@ const formRender = () => {
                 if (!value) {
                     return callback(new Error('用户名不能为空'))
                 }
+                var  reg=/^[A-z0-9]*$/;
+               if (!reg.test(value)){
+                   return callback(new Error('请输入英文和字符串'))
+               } 
                 callback()
             }, trigger: 'blur' 
             }

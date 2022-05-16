@@ -13,19 +13,16 @@
     </div>
 
     <div class='flex items-center flex-row-reverse px-4 min-width-32'>
-        <!-- 用户下拉 -->
-        <!-- <el-dropdown>
-            <span class='el-dropdown-link flex flex-center px-2'>
-                <span class='ml-2 mr-5'>{{ userInfo.name }}</span>
-                <el-button type='text' @click='logout'>退出登录</el-button>
-            </span>
-        </el-dropdown> -->
-
+         <!-- <div class="close-autio" >关闭铃声</div> -->
+         <!-- -->
+         <!-- <span style="font-size: 12px;" >铃声开启</span> -->
+         <el-checkbox v-model="checked1"  @click="playMp3">铃声</el-checkbox> 
+         <!-- <img :src="closeAudioIcon" class="menu-icon" alt=""  @click="closeAudio"> -->
     </div>
 </template>
 
 <script lang='ts'>
-import { defineComponent, reactive, watch } from 'vue'
+import { defineComponent, reactive, watch,ref ,onMounted} from 'vue'
 import { useLayoutStore } from '@/store/modules/layout'
 import { useRoute, RouteLocationNormalizedLoaded } from 'vue-router'
 import Notice from '@/layout/components/notice.vue'
@@ -33,12 +30,14 @@ import Screenfull from '@/layout/components/screenfull.vue'
 import Search from '@/layout/components/search.vue'
 import LayoutMenubar from '@/layout/components/menubar.vue'
 import icon from '@/assets/img/icon.png'
-
-
+import {playerStore} from "@/store/modules/palyser"
+// import {WarnningStop} from "@/utils/audioPlay"
+import closeAudioIcon from '@/assets/img/closeAudio.png'
 interface IBreadcrumbList {
     path: string
     title: string | symbol
 }
+const {Loadding,Play,player}  = playerStore()
 // 面包屑导航
 const breadcrumb = (route: RouteLocationNormalizedLoaded) => {
     const fn = () => {
@@ -66,8 +65,10 @@ const breadcrumb = (route: RouteLocationNormalizedLoaded) => {
         breadcrumbList: fn()
     })
     watch(() => route.path, () => data.breadcrumbList = fn())
-
-    return { data }
+    const closeAudio = ()=>{
+        Loadding()
+    }
+    return { data ,closeAudio}
 }
 
 export default defineComponent ({
@@ -81,6 +82,18 @@ export default defineComponent ({
     setup() {
         const { getMenubar, getUserInfo, changeCollapsed, logout, getSetting } = useLayoutStore()
         const route = useRoute()
+        const checked1 = ref<boolean>(true)
+        onMounted(()=>{
+            if(player == null){
+                checked1.value = false
+            }
+        })
+        const playMp3= ()=>{
+            if (checked1.value == true){   
+                Loadding()
+            }
+            // checked1.value = !checked1.value
+        }
         return {
             getMenubar,
             userInfo: getUserInfo,
@@ -88,7 +101,10 @@ export default defineComponent ({
             logout,
             ...breadcrumb(route),
             getSetting,
-            icon
+            icon,
+            closeAudioIcon,
+            checked1,
+            playMp3
         }
     }
 })
@@ -112,5 +128,11 @@ export default defineComponent ({
 
 .breadcrumb-leave-active {
     position: absolute;
+}
+
+.menu-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 13px;
 }
 </style>

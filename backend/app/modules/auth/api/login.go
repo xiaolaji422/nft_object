@@ -38,6 +38,7 @@ func (a *loginApi) UserInfo(r *ghttp.Request) {
 	response.Json(r, statusCode.SUCCESS, "ok", res)
 }
 
+// 登录
 func (a *loginApi) Login(r *ghttp.Request) {
 	pwd := r.GetString("password")
 	login_name := r.GetString("username")
@@ -48,13 +49,11 @@ func (a *loginApi) Login(r *ghttp.Request) {
 		response.Json(r, statusCode.ERROR_PARAMS, "请输入6-16位账户")
 	}
 	// 获取到登录信息
-
-	adminInfo, err := service.Login.Login(r.Context(), login_name, pwd)
+	loginInfo, err := service.Login.Login(r.Context(), login_name, pwd)
 	if err != nil {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
 	}
-	response.Json(r, statusCode.SUCCESS, "ok", adminInfo)
-
+	response.Json(r, statusCode.LOGINSUCCESS, "ok", loginInfo)
 }
 
 // 注册

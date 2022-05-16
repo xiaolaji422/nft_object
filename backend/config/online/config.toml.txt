@@ -39,7 +39,7 @@
         level  = "all"
         stdout = true
     [[database.default]]
-       link   = "mysql:root:NFT*Bird*backend@tcp(39.108.59.113)/nft_object"
+       link   = "mysql:root:NFT*Bird*backend@tcp(127.0.0.1)/nft_object"
        MaxIdleConnCount  = 10
        MaxOpenConnCount = 20
 # 公共配置参数
@@ -52,38 +52,10 @@
 
 
 [redis]
-    default = "127.0.0.1:6379,0,kfredispwd"
-    session = "127.0.0.1:6379,0,kfredispwd"
-    cache = "127.0.0.1:6379,0,kfredispwd"
+    default = "127.0.0.1:6379,0,NFT*Bird*backend"
+    session = "127.0.0.1:6379,0,NFT*Bird*backend"
+    cache = "127.0.0.1:6379,0,NFT*Bird*backend"
     lifetime       = "604800"
-
-[dataPath]
-    worldPath = "./data/dirtyData"
-    dirtyFilterPath = "./data"
-    adminData ="./data/adminJson"
-    systemUser ="./data/user"
-#文件上传限制
-[upload]
-    filePath = "./font/prod/upload/"
-    fileType = "jpeg,jpg,png"   # 允许后缀
-    fileSize = "6M"          # 允许大小
-    type = "dev"
-[product]
-    iconTemp = "/data/www/sy/font/pic/"      # 保存的临时目录
-    iconTouch = "/data/www/sy/font/prod/"    # 同步到外网目录	
-    iconCache = "/data/www/sy/public/versionCache/"    # 版本备份目录
-    htmlTemp = "./data/index.temp.txt"    # h5 html生成模板
-    onlineType = ["css","sdk","icon","h5"]    # 点击同步时  需要同步的内容    "css","sdk","icon","h5"
-    
-# GF-CLI工具配置
-[gfcli]
-     [[gfcli.gen.dao]]
-        # 用户案例 
-        link   = "mysql:root:NFT*Bird*backend@tcp(39.108.59.113)/nft_object"
-        removePrefix="t_"
-        tables = "t_admin,t_auth_admin_api,t_auth_admin_role,t_auth_api,t_auth_api_group,t_auth_role,t_auth_role_api"
-        path ="./app"
-        jsonCase="Snake"
 [auth]
     whiteApi=[
         "/system/uploadImg",

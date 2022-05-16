@@ -5,17 +5,18 @@
         </audio>
         <div> 最新公告（单个平台最新1条公告，若单个平台5分钟连续多条则多条都告警展示）</div>
         <el-table cell-class-name="newstable" :show-header="false" :data="tableData" style="padding:10px;" @cell-click="handleCellClick">
+           <el-table-column prop="notice_time" label="公告时间" width="200"/>
            <el-table-column prop="notice_time" label="产品名称" width="100">
                 <template #default="{row}">
                     {{ getPlatName(row.platform) }}
                 </template>
             </el-table-column>
-            <el-table-column prop="notice_time" label="公告时间" width="200"/>
             <el-table-column prop="name" label="内容" class-name="notice-name"/>
         </el-table>
         <div style="margin-top:40px">
         <div style="padding: 12px 0;">历史公告</div>
             <app-table
+                @cell-click="handleCellClick"
                 :config="tableConfig"
                 ref="appTableRef"
                 tableName="userTable"
@@ -39,6 +40,9 @@ import noticeApi from '@/api/notice'
 import { $notificatioSuccess,$notificatioWarn } from "@/utils/utils";
 import { defineComponent, ref, reactive, onMounted } from 'vue'
 import {getMapData} from '@/utils/statusMap'
+import { flatMap } from 'lodash';
+import {WarnningPlay} from "@/utils/audioPlay"
+import {playerStore} from "@/store/modules/palyser"
   //  faq配置列表
 const name =  'NoticeTable'
 const tableData = ref<any>([])
@@ -53,13 +57,18 @@ const getPlatName = (platform:number)=>{
    }
     return ""
 }
+const {Play} = playerStore()
 const getTableData = async()=>{
     try{
         const {data} = await noticeApi.queryNotice({})
-        if (data && data.length){
-            tableData.value = data
+        if (data && data.data ){
+            tableData.value = data.data
             // 获取成功
-            waringRef.value.play()
+            if (data.is_warn){
+                Play("有新公告")
+            }
+            
+           
         }
     }catch(err){}
 }
@@ -72,10 +81,12 @@ const handleCellClick = (event:any)=>{
     window.open(event?.notice_url)
 }
 
+const appTableRef = ref()
+
 onMounted(async ()=>{
     refreshTableData()
-     paltFormData.value = getMapData("notice_type")
-    // setInterval(refreshTableData,10000)
+    paltFormData.value = getMapData("notice_type")
+    window.autoPlayMp3= setInterval(getTableData,2000)
 })
 
 const tableConfig = reactive({

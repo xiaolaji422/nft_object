@@ -20,13 +20,13 @@ export const _asyncRoutes = [
     alwaysShow: true, 
     component: () => import('@/layout/index.vue'),
     redirect: "/notice/index",
-    meta: { title: "公告告警", icon: "el-icon-document",img: 'authActive'},
+    meta: { title: "公告告警",img: 'authActive'},
     children: [
       {
         path: "/notice/index",
         name: "NoticeIndex",
         component: () => import('@/views/Notice/index.vue'),
-        meta: { title: "公告告警" },
+        meta: { title: "公告告警" ,img: 'data',icon:"el-icon-lock"},
       }
     ],
   },

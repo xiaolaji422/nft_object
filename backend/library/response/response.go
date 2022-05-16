@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"nft_object/library/auth"
 	"nft_object/library/helper"
 	"nft_object/statusCode"
 	"os"
@@ -166,22 +167,30 @@ func OutputFileByByte(r *ghttp.Request, data []byte) {
 // CheckAuthSession check系统登录(tof接口)
 func CheckAuthSession(r *ghttp.Request) {
 	// 本地测试环境
-	sessionInfo := r.Session.Get(statusCode.SESSION_ADMIN_INFO)
-	if sessionInfo == nil {
-
+	v, ok := r.Header["Auth-Sign"]
+	if !ok || len(v) == 0 {
 		Json(r, statusCode.ERROR_NO_LOGIN, "Not logged in")
 		r.Exit()
-
 	}
-	adminInfo := gconv.Map(sessionInfo)
+
+	admin_info, errorCode, err := auth.NewAuth().CheckSign(v[0])
+	if err != nil {
+		Json(r, errorCode, err.Error())
+		r.Exit()
+	}
+
+	if g.IsEmpty(admin_info) {
+		Json(r, statusCode.ERROR_NO_LOGIN, "Not logged in")
+		r.Exit()
+	}
 	// 超级管理员账户设置
 	superAdmin := gconv.SliceStr(g.Config().GetArray("auth.superAdmin", []string{"fourteen"}))
-	login_name := helper.GetMapValue(adminInfo, "login_name", "")
+	login_name := admin_info.LoginName
 	if gstr.InArray(superAdmin, gconv.String(login_name)) {
-		adminInfo["super_admin"] = 1
+		admin_info.IsAdmin = 1
 	}
 
-	r.SetCtxVar(statusCode.SESSION_ADMIN_INFO, adminInfo)
+	r.SetCtxVar(statusCode.SESSION_ADMIN_INFO, admin_info)
 	// 设置名称快捷获取
 	r.SetCtxVar(statusCode.SESSION_CACHE_ADMIN_NAME, login_name)
 }

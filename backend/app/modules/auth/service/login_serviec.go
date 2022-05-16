@@ -3,9 +3,12 @@ package service
 import (
 	"context"
 	"errors"
+	"nft_object/app/core"
 	adminModel "nft_object/app/model"
 	"nft_object/app/modules/admin/service"
+	"nft_object/library/auth"
 	"nft_object/statusCode"
+	"time"
 
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
@@ -28,15 +31,28 @@ func (s *loginService) Login(ctx context.Context, login_name, password string) (
 		return nil, errors.New("账户不存在")
 	}
 
-	if admin.Password != password {
+	if admin.Password != auth.Md5Encrypt(password) {
 		return nil, errors.New("密码错误")
 	}
 
 	// todo  判断用户当前状态
 	apis, err := HandleLoginBate(ctx, admin)
-	var adminInfo = gconv.Map(admin)
-	adminInfo["apis"] = apis
-	return adminInfo, err
+	if err != nil {
+		return nil, err
+	}
+	var adminInfo = auth.AdminInfo{
+		LoginName: admin.LoginName,
+		Apis:      gconv.SliceStr(apis),
+	}
+	sign, err := auth.NewAuth().SetLoginInfo(adminInfo, time.Hour*24*10)
+	if err != nil {
+		return nil, err
+	}
+	var resData = core.MapI{
+		"sign":       sign,
+		"login_name": login_name,
+	}
+	return resData, err
 }
 
 //登出
@@ -51,7 +67,7 @@ func (s *loginService) LoginOut(r *ghttp.Request) error {
 //用户信息
 func (s *loginService) UserInfo(r *ghttp.Request) g.Map {
 
-	mapData := gconv.Map(r.Session.Get(statusCode.SESSION_ADMIN_INFO))
+	mapData := r.GetCtxVar(statusCode.SESSION_ADMIN_INFO).MapDeep()
 	// 指定返回信息
 	res := g.Map{
 		"login_name": mapData["login_name"],

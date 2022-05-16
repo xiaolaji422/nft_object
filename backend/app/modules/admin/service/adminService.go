@@ -6,6 +6,7 @@ import (
 	"nft_object/app/core"
 	"nft_object/app/dao"
 	"nft_object/app/model"
+	"nft_object/library/auth"
 	"nft_object/library/helper"
 
 	"github.com/gogf/gf/frame/g"
@@ -134,7 +135,7 @@ func (s *adminService) Register(ctx context.Context, login_name, password string
 	// 先获取该人的所有的角色
 	var admin = model.Admin{
 		LoginName: login_name,
-		Password:  password,
+		Password:  auth.Md5Encrypt(password),
 		Level:     1,
 	}
 	checkCount, err := dao.Admin.Where("login_name", login_name).Count()

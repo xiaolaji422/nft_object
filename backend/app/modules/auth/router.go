@@ -20,7 +20,6 @@ func init() {
 			group.POST("/register", api.Login.Register)
 			group.POST("/loginOut", api.Login.LoginOut)
 			group.POST("/login", api.Login.Login)
-
 		})
 		group.Group("/authUser", func(group *ghttp.RouterGroup) {
 			// 中间件

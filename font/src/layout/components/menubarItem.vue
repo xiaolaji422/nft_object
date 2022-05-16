@@ -17,7 +17,7 @@
         :key='menuList.path'
         :index='menuList.path'
     >
-        <!-- <i :class='menuList.meta.icon || "el-icon-setting"' /> -->
+        <i :class='menuList.meta.icon || "el-icon-setting"' />
         <template #title>
             {{ menuList.meta.title }}
         </template>

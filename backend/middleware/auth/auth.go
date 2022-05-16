@@ -24,9 +24,10 @@ func MiddlewareAuth(r *ghttp.Request) {
 	// 判断是否登录
 	response.CheckAuthSession(r)
 	// 判断用户信息
-	adminInfo := gconv.Map(r.GetCtxVar(statusCode.SESSION_ADMIN_INFO))
+	adminInfo := r.GetCtxVar(statusCode.SESSION_ADMIN_INFO).MapDeep()
 	// 超级管理员
-	if _, ok := adminInfo["super_admin"]; !ok {
+	if _, ok := adminInfo["is_admin"]; !ok || gconv.Int(adminInfo["is_admin"]) != 1 {
+
 		// 非超管验证账户信息
 		if code, err := checkApiAuth(r); err != nil {
 			response.Json(r, code, err.Error())
@@ -76,17 +77,18 @@ func checkApiAuth(r *ghttp.Request) (int, error) {
 	if g.IsEmpty(apiInfo) {
 		return statusCode.FORBIDDEN, errors.New("接口不存在")
 	}
+
 	// 查看接口的状态
 	if apiInfo.Enabled != 1 {
 		return statusCode.FORBIDDEN, errors.New("接口状态不支持访问")
 	}
 	// 接口鉴权
-	adminInfo := gconv.Map(r.GetCtxVar(statusCode.SESSION_ADMIN_INFO))
+	adminInfo := r.GetCtxVar(statusCode.SESSION_ADMIN_INFO).MapDeep()
 	authApiList := []string{}
-
-	if _, ok := adminInfo["apiList"]; ok {
-		authApiList = gconv.SliceStr(adminInfo["apiList"])
+	if _, ok := adminInfo["apis"]; ok {
+		authApiList = gconv.SliceStr(adminInfo["apis"])
 	}
+
 	apiAuth := gstr.InArray(authApiList, gconv.String(apiInfo.Id))
 
 	if !apiAuth {
@@ -98,6 +100,7 @@ func checkApiAuth(r *ghttp.Request) (int, error) {
 	return statusCode.FORBIDDEN_BUSY, limitRes
 }
 
+//
 func routeLimit(adminId int, apiId int, limit int) error {
 	if limit <= 0 {
 		return nil

@@ -35,11 +35,11 @@ func (a *notice) QueryNotice(r *ghttp.Request) {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
 	}
 
-	res, err := a.proxy.GetNewNotice(ctx)
+	res, isWarning, err := a.proxy.GetNewNotice(ctx)
 	if err != nil {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
 	}
-	response.Json(r, statusCode.SUCCESS, "ok", res)
+	response.Json(r, statusCode.SUCCESS, "ok", core.MapI{"is_warn": isWarning, "data": res})
 }
 
 //	获取历史公告

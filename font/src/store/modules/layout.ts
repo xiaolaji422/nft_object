@@ -7,11 +7,15 @@ import { allowRouter } from '@/router/index'
 import { generatorDynamicRouter } from '@/router/asyncRouter'
 import { setLocal, getLocal, decode } from '@/utils/tools'
 import { RouteLocationNormalizedLoaded } from 'vue-router'
+// import {WarnningStop } from "@/utils/audioPlay"
 
 const setting = getLocal<ISetting>('setting')
 const { ACCESS_TOKEN } = getLocal<IStatus>('token')
 import routes from '@/router/index'
 import { ElMessage } from 'element-plus'
+
+// import {playerStore} from "@/store/modules/palyser"
+// const {Loadding} = playerStore()
 export const useLayoutStore = defineStore({
     id: 'layout',
     state: ():ILayout => ({
@@ -49,6 +53,7 @@ export const useLayoutStore = defineStore({
             return this.menubar
         },
         getUserInfo():IUserInfo {
+            
             return this.userInfo
         },
         getTags():ITags {
@@ -70,6 +75,11 @@ export const useLayoutStore = defineStore({
                 : this.menubar.status === IMenubarStatus.PCN 
                     ? IMenubarStatus.PCE 
                     : IMenubarStatus.PCN
+        },
+        setUserInfo(userInfo:any){
+            if (userInfo && userInfo.login_name){
+                this.userInfo.name = userInfo.login_name
+            }
         },
         changeDeviceWidth():void {
             this.menubar.isPhone = document.body.offsetWidth < 768
@@ -133,14 +143,15 @@ export const useLayoutStore = defineStore({
             if(this.tags.tagsList.map(v => v.name).includes(obj.name)) return
             this.tags.cachedViews.splice(obj.index, 1)
         },
-        async login(param: loginParam):Promise<void> {
-            const res = await api.login(param)
-            const token = res.data.Data
-            this.status.ACCESS_TOKEN = token
-            setLocal('token', this.status, 1000 * 60 * 60)
-            const { query } = router.currentRoute.value
-            router.push(typeof query.from === 'string' ? decode(query.from) : '/')
-        },
+        // async login(param: loginParam):Promise<void> {
+        //     const res = await api.login(param)
+        //     console.log(res,"login")
+        //     const token = res.data.Data
+        //     this.status.ACCESS_TOKEN = token
+        //     setLocal('token', this.status, 1000 * 60 * 60)
+        //     const { query } = router.currentRoute.value
+        //     router.push(typeof query.from === 'string' ? decode(query.from) : '/')
+        // },
         async register(param: loginParam):void {
             api.register(param).then((res: any) => {
                 if(res){
@@ -158,6 +169,12 @@ export const useLayoutStore = defineStore({
         logout():void {
             api.loginOut().then((res: any) => {
                 if(res.data){
+                    try{
+                        clearInterval(window.autoPlayMp3)
+                    }catch(err){
+                        console.log(err,"clearInterval")
+                     }
+                    
                     ElMessage.success("登出成功")
                      setTimeout(function(){
                        // 跳转到登录页
@@ -219,15 +236,21 @@ export const useLayoutStore = defineStore({
         },
         
         async getUser():Promise<void> {
-            // const res = await userApi.authAdminInfo()
+            // WarnningStop()
+            // Loadding()
+            if (this.userInfo && this.userInfo.name){
+               return 
+            }
+
+            const res = await userApi.authAdminInfo()
             // WMJS.init(res?.data?.login_name || '未登录');
-            // this.userInfo.name = res?.data?.login_name
-            // this.userInfo.role = []
+            this.userInfo.name = res?.data?.login_name
+            this.userInfo.role = []
         },
         async GenerateRoutes():Promise<void> {
-            console.log(routes, 456)
-            // const res = await getRouterList()
-            // const data = 
+            // console.log(routes, 456)
+            const res = await userApi.authAdminInfo()
+            // const data = res.data
             // const { Data } = data
             // generatorDynamicRouter(Data)
         }

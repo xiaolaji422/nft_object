@@ -6,8 +6,10 @@ import (
 	"nft_object/middleware/cfg"
 	"time"
 
+	"github.com/gogf/gcache-adapter/adapter"
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/os/gcache"
 	"github.com/gogf/gf/os/gsession"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
@@ -33,7 +35,9 @@ func init() {
 	// 		"SessionStorage": gsession.NewStorageRedis(g.Redis()),
 	// 	})
 	// }
-
+	cache := gcache.New()
+	adapter := adapter.NewRedis(g.Redis())
+	cache.SetAdapter(adapter)
 	logPath := c.GetString("server.LogPath", "./logs")
 	s.SetLogPath(logPath)
 	s.SetAccessLogEnabled(c.GetBool("server.AccessLogEnabled"))

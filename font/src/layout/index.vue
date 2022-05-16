@@ -21,7 +21,10 @@
                 </el-scrollbar>
             </div>
 
-        <div class="login-out" @click="handleLoginOut"> <i class="el-icon-remove"></i> {{`退出登录`}}</div>
+        <div class="login-out" @click="handleLoginOut">
+            <i class="el-icon-circle-close"></i> 
+            <span style="margin-left:10px;font-size: 14px;">{{userInfo.name}}</span>
+        </div>
         </div>
         <div class='layout-main flex flex-1 flex-col overflow-x-hidden overflow-y-auto'>
             <div class='layout-main-navbar flex justify-between items-center h-12 shadow-sm overflow-hidden relative z-10'>
@@ -31,6 +34,7 @@
             <div class='layout-main-content flex-1 overflow-hidden'>
                 <layout-content />
             </div>
+           
         </div>
     </div>
 </template>
@@ -44,6 +48,7 @@ import LayoutTags from '@/layout/components/tags.vue'
 import LayoutSideSetting from '@/layout/components/sideSetting.vue'
 import { throttle } from '@/utils/tools'
 import { useLayoutStore } from '@/store/modules/layout'
+import { playerStore } from '@/store/modules/palyser'
 import icon from '@/assets/img/icon.png'
 import { confirm ,notify} from '@/utils/notify';
 import loginApi from '@/api/login'
@@ -58,7 +63,8 @@ export default defineComponent ({
         LayoutSideSetting
     },
     setup() {
-        const { changeDeviceWidth, changeCollapsed, getMenubar, getSetting } = useLayoutStore()
+        const {Loadding} = playerStore()
+        const { changeDeviceWidth, changeCollapsed, getMenubar, getSetting,getUserInfo } = useLayoutStore()
         onMounted(async() => {
             changeDeviceWidth()
             const throttleFn = throttle(300)
@@ -66,9 +72,10 @@ export default defineComponent ({
                 await throttleFn()
                 changeDeviceWidth()
             }
+            Loadding()
             window.addEventListener('resize', throttleF, true)
         })
-
+        
         const handleLoginOut =async ()=>{
                 const isOk = await confirm.warning('您确定要退出登录系统吗');
                 if (!isOk) {
@@ -77,20 +84,28 @@ export default defineComponent ({
                 const result: any = await loginApi.loginOut({});
                 if (result !== false) {
                     notify.success('退出登录成功');
-                    setTimeout(() => {
+                    try{
+                        clearInterval(window.autoPlayMp3)
+                        setTimeout(() => {
                         router.push({
                             path:"/Login"
                         })
                     }, 500);
+                    }catch(err){
+                        console.log(err,"clearInterval")
+                     }
+                    
                 }
         }
-
+      
         return {
             getMenubar,
             getSetting,
             changeCollapsed,
             icon,
             handleLoginOut,
+            // userInfo,
+            userInfo: getUserInfo,
         }
     }
 })

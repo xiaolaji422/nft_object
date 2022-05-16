@@ -206,7 +206,7 @@
     <!-- <div  class="custom_scroll " ref="customScrollRef" >
       <div class= "custom_scroll_body " :style="`width:${scrollWidth}`"></div>
     </div> -->
-    <TableScroll @change="scrollChange" :scrollWidth="scrollWidth"></TableScroll>
+    <!-- <TableScroll @change="scrollChange" :scrollWidth="scrollWidth"></TableScroll> -->
     <el-pagination
       v-if="appConfig.isPagination"
       v-bind="appConfig.pagination"
@@ -288,17 +288,17 @@ export default defineComponent({
     const customScrollRef =ref(null)
     
     onMounted(()=>{
-      setTimeout(()=>{
-        if(scorllDom.value == null){
-          scorllDom.value = tableRef.value.$el.querySelector(".el-table__body-wrapper")
-        }
-        scrollWidth.value = tableRef.value.bodyWidth
-      },200)
-      window.onresize = () => {
-        return (() => {
-          scrollWidth.value = tableRef.value.bodyWidth
-        })()
-      }
+      // setTimeout(()=>{
+      //   if(scorllDom.value == null){
+      //     scorllDom.value = tableRef.value.$el.querySelector(".el-table__body-wrapper")
+      //   }
+      //   scrollWidth.value = tableRef.value.bodyWidth
+      // },200)
+      // window.onresize = () => {
+      //   return (() => {
+      //     scrollWidth.value = tableRef.value.bodyWidth
+      //   })()
+      // }
     })
 
     for (let i =0;i<appConfig.tableColumn.length;i++){
@@ -322,10 +322,10 @@ export default defineComponent({
       totalCount: 1
     })
     // 滚动条事件
-    const scrollChange = function (val){
-      let scorllLeft = val.scrollLeft
-      scorllDom.value.scrollTo(scorllLeft,0)
-    }
+    // const scrollChange = function (val){
+    //   let scorllLeft = val.scrollLeft
+    //   scorllDom.value.scrollTo(scorllLeft,0)
+    // }
     // 全局对象类型  IObjType
     const handleEdit = (row: IObjType) => {
       emit('handleEdit', row)
@@ -533,7 +533,7 @@ export default defineComponent({
       tableRef,
       scrollWidth,
       customScrollRef,
-      scrollChange,
+      // scrollChange,
       handleCellClick,
     }
   }

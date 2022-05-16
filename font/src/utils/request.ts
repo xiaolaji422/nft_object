@@ -1,7 +1,7 @@
 import { useLayoutStore } from "@/store/modules/layout";
 import axios from "axios";
 import router from '@/router'
-
+import{local} from "./storage"
 import { AxiosResponse } from "axios";
 import { ElLoading, ElMessage, ElNotification } from "element-plus";
 import { useApptore } from '@/store/modules/app'
@@ -112,10 +112,9 @@ const errorHandler = (error: { message: string }) => {
   });
   return Promise.reject(error);
 };
-
 // request interceptor
 request.interceptors.request.use((config: any) => {
-
+  config.headers['Auth-Sign'] =local.get("sign_xiaolaji")
   //  处理限频的参数
   if(config.limitKey){
     if(config.params && config.params[config.limitKey]) {
@@ -175,7 +174,7 @@ request.interceptors.response.use((response: AxiosResponse<IResponse>) => {
       router.replace({path: '/Login'});
       // window.location.href =  url;
       return Promise.reject('未登陆');
-    }else if (res.code !== 0) {
+    }else if(res.code > 100) {
       if(res.msg && res.msg.length){
         ElMessage({
           message: res.msg || '网络错误，请稍后再试',
@@ -184,6 +183,11 @@ request.interceptors.response.use((response: AxiosResponse<IResponse>) => {
         });
       }
       return Promise.reject(res || '网络错误，请稍后再试');
+    }else if (res.code ==100){
+      console.log(res,"10000")
+      if (res && res.data && res.data.sign){
+        local.set("sign_xiaolaji",res.data.sign)
+      }
     }
   // 限频管理
   if(response.config && response.config.requestLimit){

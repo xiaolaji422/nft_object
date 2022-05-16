@@ -6,6 +6,8 @@ const (
 	// 成功
 	SUCCESS = 0
 
+	LOGINSUCCESS = 100
+
 	// 未知错误
 	ERROR = 1000
 
