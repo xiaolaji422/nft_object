@@ -30,6 +30,28 @@ export const _asyncRoutes = [
       }
     ],
   },
+  {
+    path: "/order",
+    name: "Order",
+    alwaysShow: true, 
+    component: () => import('@/layout/index.vue'),
+    redirect: "/order/index",
+    meta: { title: "轮询锁单",img: 'authActive'},
+    children: [
+      {
+        path: "/order/index",
+        name: "order-index",
+        component: () => import('@/views/Order/index.vue'),
+        meta: { title: "自动锁单" ,img: 'data',icon:"el-icon-lock"},
+      },
+      {
+        path: "/order/login",
+        name: "order-login",
+        component: () => import('@/views/Order/relogin.vue'),
+        meta: { title: "账号登陆" ,img: 'data',icon:"el-icon-lock"},
+      }
+    ],
+  },
  {
     path: '/permission',
     component:()=> import('@/layout/index.vue'),
