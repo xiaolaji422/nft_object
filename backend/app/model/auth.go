@@ -90,18 +90,3 @@ type ApiGroup struct {
 	ModifiedUser string      `orm:"modified_user" json:"modified_user"` //
 	ModifiedTime *gtime.Time `orm:"modified_time" json:"modified_time"` //
 }
-
-// NoticeWarning is the golang structure for table t_notice_warning.
-type NoticeWarning struct {
-	Id          int         `orm:"id,primary"  json:"id"`          // ID
-	Platform    int         `orm:"platform"    json:"platform"`    // 公告平台
-	OriginalId  int         `orm:"original_id" json:"original_id"` // 原始的公告id
-	Name        string      `orm:"name"        json:"name"`        //
-	Description string      `orm:"description" json:"description"` // 公告告警描述
-	Content     string      `orm:"content"     json:"content"`     //
-	NoticeUrl   string      `orm:"notice_url"  json:"notice_url"`  //
-	NoticeTime  *gtime.Time `orm:"notice_time" json:"notice_time"` // 公告创建时间
-	CreateTime  *gtime.Time `orm:"create_time" json:"create_time"` // 创建时间
-	UpdateTime  *gtime.Time `orm:"update_time" json:"update_time"` // 更新时间
-	Enabled     int         `orm:"enabled"     json:"enabled"`     // 状态描述, 1: 正常使用，0: 删除
-}

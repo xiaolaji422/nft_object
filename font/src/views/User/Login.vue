@@ -33,7 +33,10 @@ import api from '@/api/login'
 import { flatMap } from 'lodash'
 // import {WarnningStop} from "@/utils/audioPlay"
 import {playerStore} from "@/store/modules/palyser"
+import {websocketStore} from "@/store/modules/websocket"
+
 const {Loadding} = playerStore()
+const  socket= websocketStore()
 const formRender = () => {
     const { setUserInfo } = useLayoutStore()
     let form = reactive({
@@ -56,6 +59,10 @@ const formRender = () => {
             // 注册播放器
             // WarnningStop()
             Loadding()
+            
+            
+            socket.reigster(res.data.login_name)}
+            
             // 跳转
              const { query } = router.currentRoute.value
              router.push(typeof query.from === 'string' ? decode(query.from) : '/')

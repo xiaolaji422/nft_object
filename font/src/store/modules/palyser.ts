@@ -35,7 +35,6 @@ export const playerStore = defineStore({
                 } catch (error) {
                     notify.success("暂未开启音乐通知:"+info)
                 }
-                
             }
         }, 
     }

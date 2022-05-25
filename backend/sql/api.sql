@@ -52,3 +52,7 @@ INSERT INTO `t_auth_api` (`group_id`,`name`,`route`,`methods`) VALUES (6,"启用
 INSERT INTO `t_auth_api_group` (`id`,`name`) VALUES (7,"公告管理");
 INSERT INTO `t_auth_api` (`group_id`,`name`,`route`,`methods`) VALUES (7,"最新公告","/admin/notice/query_notice","GET");
 INSERT INTO `t_auth_api` (`group_id`,`name`,`route`,`methods`) VALUES (7,"历史公告","/admin/notice/query_his_notice","GET");
+
+
+INSERT INTO `t_auth_api_group` (`id`,`name`) VALUES (8,"锁单管理");
+INSERT INTO `t_auth_api` (`group_id`,`name`,`route`,`methods`) VALUES (8,"商品查找","/admin/album/search","GET");

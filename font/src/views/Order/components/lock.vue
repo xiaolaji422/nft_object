@@ -5,25 +5,26 @@
                 <span :class="$style.title">商品搜索：</span>
                 <el-select
                     style="width: calc(100% - 120px);"
-                    v-model="goodsId"
-                    multiple
+                    v-model="formData.goodsName"
                     filterable
                     remote
                     reserve-keyword
                     placeholder="请输入商品搜索"
                     :remote-method="remoteMethod"
                     :loading="loading"
+                    value-key="id"
+                    @change ="changeGoods"
                 >
                     <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="item in goodsData"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item"
                     />
                 </el-select>
             </div>
             <div :class="$style.name">
-            <span :class="$style.title">搜索结果：</span><span>搜搜撒大苏打</span>
+            <span :class="$style.title">搜索结果：</span><span>{{formData.goodsName}}</span>
             </div>
         </div>
         <div :class="$style.content">
@@ -34,17 +35,62 @@
                     <el-table-column prop="name" label="状态(1次/s)" />
                 </el-table>
             </div>
-            <div :class="$style['content-form']"></div>
+            <div :class="$style['content-form']">
+                <el-form>
+                    <el-form-item label="账号">
+                        <el-select v-model="formData.adminInfo" class="m-2" placeholder="Select">
+                            <el-option
+                            v-for="item in adminData"
+                            :key="item.account"
+                            :label="item.account"
+                            :value="item.account"
+                            />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="价格">
+                        <el-row :gutter="10">
+                            <el-col :span="11"><el-input v-model="formData.min"/></el-col>
+                            -
+                            <el-col :span="11"><el-input v-model="formData.max"/></el-col>
+                        </el-row>
+                    </el-form-item>
+                     <el-row :gutter="40">
+                            <el-col :span="8" v-if="!islock"><el-button size="small" @click="lockGoods" type="primary">自动锁单</el-button></el-col>
+                            <el-col :span="8" v-else><el-button size="small" @click="unlockGoods" type="primary">取消锁单</el-button></el-col>
+                        </el-row>
+                    
+                </el-form>
+                 
+            </div>
         </div>
     </div>    
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
+import nftApi from "@/api/nft/index"
+import {notify,confirm} from "@/utils/notify";
 const goodsId = ref()
 
-
-const remoteMethod = (val:string)=>{
-    console.log(val,"remoteMethod")
+const formData = ref({
+    accountInfo:{},
+    min:"",
+    max:"",
+    goodsId:"",
+    goodsName:"",
+})
+onMounted(()=>{
+    remoteMethod("")
+})
+const islock=ref(false)
+const loading = ref(false)
+const remoteMethod =async (val:string)=>{
+  const res = await  nftApi.serachAblum({keyword:val})
+  console.log(res,"remo")
+  if (res && res.data && res.data.items){
+      goodsData.value = res.data.items
+  }else{
+      goodsData.value = []
+  }
 }
 
 const tableData = [
@@ -74,6 +120,31 @@ const tableData = [
   {name: 'Tom'},
   {name: 'Tom'},
   
+]
+
+const changeGoods = (val:any)=>{
+    console.log(val,"changeGoods",val)
+    formData.value.goodsId = val.id
+    formData.value.goodsName = val.name
+}
+const lockGoods = async()=>{
+    notify.info("开发中")
+    islock.value = true
+}
+const unlockGoods = async()=>{
+    notify.info("开发中")
+    islock.value = false
+}
+const goodsData = ref([])
+
+const adminData=[
+    {account:"12313",cookie:"12313"},
+    {account:"12313",cookie:"12313"},
+    {account:"12313",cookie:"12313"},
+    {account:"12313",cookie:"12313"},
+    {account:"12313",cookie:"12313"},
+    {account:"12313",cookie:"12313"},
+    {account:"12313",cookie:"12313"},
 ]
 </script>
 <style lang="scss" scoped>
@@ -110,7 +181,7 @@ const tableData = [
     align-items: center;
     height: 80px;
     &-ctn{
-        width: 100%;
+        width: 70%;
         flex-wrap: nowrap;
         display: flex;
         justify-content: flex-start;
@@ -137,7 +208,10 @@ const tableData = [
         border-radius: 6px;
         width: 40%;
         background-color: #FAFAFA;
-         height: 100%;
+        // height: 100%;
+        margin-top:20px;
+        padding: 10px;
+
     }
 }
 </style>

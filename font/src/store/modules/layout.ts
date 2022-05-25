@@ -7,6 +7,7 @@ import { allowRouter } from '@/router/index'
 import { generatorDynamicRouter } from '@/router/asyncRouter'
 import { setLocal, getLocal, decode } from '@/utils/tools'
 import { RouteLocationNormalizedLoaded } from 'vue-router'
+import { websocketStore } from './websocket'
 // import {WarnningStop } from "@/utils/audioPlay"
 
 const setting = getLocal<ISetting>('setting')
@@ -238,13 +239,16 @@ export const useLayoutStore = defineStore({
         async getUser():Promise<void> {
             // WarnningStop()
             // Loadding()
+            
             if (this.userInfo && this.userInfo.name){
+                websocketStore().reigster(this.userInfo.name)
                return 
             }
 
             const res = await userApi.authAdminInfo()
             // WMJS.init(res?.data?.login_name || '未登录');
             this.userInfo.name = res?.data?.login_name
+            websocketStore().reigster(this.userInfo.name)
             this.userInfo.role = []
         },
         async GenerateRoutes():Promise<void> {

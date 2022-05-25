@@ -21,5 +21,12 @@ func init() {
 			group.GET("/query_notice", notice_api.QueryNotice)
 			group.GET("/query_his_notice", notice_api.QueryHistoryNotice)
 		})
+
+		group.Group("/album", func(group *ghttp.RouterGroup) {
+			var notice_api = api.NFTAlbumApi()
+			group.Middleware(auth.MiddlewareAuth)
+			// 中间件
+			group.GET("/search", notice_api.Search)
+		})
 	})
 }

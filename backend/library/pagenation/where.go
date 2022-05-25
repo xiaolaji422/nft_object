@@ -2,6 +2,7 @@ package pagenation
 
 import (
 	"errors"
+	"fmt"
 	"nft_object/app/core"
 	"nft_object/library/helper"
 	"reflect"
@@ -71,7 +72,6 @@ func (p *Pagenation) Where(data core.MapI) (*Pagenation, error) {
 
 		switch v.Operator {
 		case OP_BETWEEN:
-
 			key = v.Fields + " " + v.Operator + " ? and ?"
 			// 结果解析
 			if reflect.TypeOf(v.Value).Kind() == reflect.String {
@@ -103,10 +103,12 @@ func (p *Pagenation) Where(data core.MapI) (*Pagenation, error) {
 				v.Value = strings.Split(gconv.String(v.Value), ",")
 			}
 		case OP_LIKE:
-
+			key = v.Fields + " " + v.Operator + " ?"
+			v.Value = fmt.Sprintf("%s%s", v.Value, "%")
 		case OP_LIKEALL:
 			v.Operator = "like"
 			key = v.Fields + " " + v.Operator + " ?"
+			v.Value = fmt.Sprintf("%s%s%s", "%", v.Value, "%")
 		default:
 			key = v.Fields + " " + v.Operator + " ?"
 		}

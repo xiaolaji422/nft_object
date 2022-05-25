@@ -43,6 +43,8 @@ import {getMapData} from '@/utils/statusMap'
 import { flatMap } from 'lodash';
 import {WarnningPlay} from "@/utils/audioPlay"
 import {playerStore} from "@/store/modules/palyser"
+import {websocketStore} from "@/store/modules/websocket"
+import socketUtil from "@/utils/websocket"
   //  faq配置列表
 const name =  'NoticeTable'
 const tableData = ref<any>([])
@@ -58,8 +60,10 @@ const getPlatName = (platform:number)=>{
     return ""
 }
 const {Play} = playerStore()
+const  socket= websocketStore()
 const getTableData = async()=>{
     try{
+        socket.sendMsg({"appid":"422","userid":"lajipeng"})
         const {data} = await noticeApi.queryNotice({})
         if (data && data.data ){
             tableData.value = data.data
@@ -86,7 +90,7 @@ const appTableRef = ref()
 onMounted(async ()=>{
     refreshTableData()
     paltFormData.value = getMapData("notice_type")
-    window.autoPlayMp3= setInterval(getTableData,2000)
+    window.autoPlayMp3= setInterval(getTableData,10000)
 })
 
 const tableConfig = reactive({
