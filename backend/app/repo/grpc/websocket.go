@@ -58,7 +58,6 @@ func (w *webSocket) SendAll(ctx context.Context, userid []string, msg string) (i
 	}
 	req := &pb.SendMsgAllReq{
 		Appid:   w.Appid,
-		Userid:  userid,
 		Message: msg,
 	}
 

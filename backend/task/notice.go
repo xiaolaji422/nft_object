@@ -14,10 +14,9 @@ func init() {
 	gtimer.AddSingleton(interval, func() {
 		// 获取是否有最新的公告
 		msg := service.NewMessage("TASK", "我获取到了新的信息")
-		rows, err := service.SendMsgImpl().SendAll(context.Background(), []string{}, msg)
+		_, err := service.SendMsgImpl().SendAll(context.Background(), []string{}, msg)
 		if err != nil {
 			fmt.Println(err.Error())
 		}
-		fmt.Println("发送数量", rows)
 	})
 }

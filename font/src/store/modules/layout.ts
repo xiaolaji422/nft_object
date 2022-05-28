@@ -244,8 +244,9 @@ export const useLayoutStore = defineStore({
                 websocketStore().reigster(this.userInfo.name)
                return 
             }
-
+            console.log("getUser",111111111111)
             const res = await userApi.authAdminInfo()
+            
             // WMJS.init(res?.data?.login_name || '未登录');
             this.userInfo.name = res?.data?.login_name
             websocketStore().reigster(this.userInfo.name)
@@ -253,7 +254,9 @@ export const useLayoutStore = defineStore({
         },
         async GenerateRoutes():Promise<void> {
             // console.log(routes, 456)
+            console.log("GenerateRoutes","111111111")
             const res = await userApi.authAdminInfo()
+            
             // const data = res.data
             // const { Data } = data
             // generatorDynamicRouter(Data)

@@ -63,7 +63,8 @@ const {Play} = playerStore()
 const  socket= websocketStore()
 const getTableData = async()=>{
     try{
-        socket.sendMsg({"appid":"422","userid":"lajipeng"})
+        // 发送消息
+        // socket.sendMsg({"appid":"422","userid":"lajipeng"})
         const {data} = await noticeApi.queryNotice({})
         if (data && data.data ){
             tableData.value = data.data

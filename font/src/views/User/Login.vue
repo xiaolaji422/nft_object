@@ -61,13 +61,14 @@ const formRender = () => {
             Loadding()
             
             
-            socket.reigster(res.data.login_name)}
-            
-            // 跳转
-             const { query } = router.currentRoute.value
-             router.push(typeof query.from === 'string' ? decode(query.from) : '/')
-
+            socket.reigster(res.data.login_name)
         }
+            
+        // 跳转
+        const { query } = router.currentRoute.value
+        router.push(typeof query.from === 'string' ? decode(query.from) : '/')
+
+        
         ElNotification({
             title: '欢迎',
             message: '欢迎回来',

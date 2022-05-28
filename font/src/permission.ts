@@ -4,6 +4,7 @@ import { RouteRecordRaw } from 'vue-router'
 import { decode, encode } from '@/utils/tools'
 import { useLayoutStore } from '@/store/modules/layout'
 import { useLocal } from '@/utils/tools'
+import { flatMap } from 'lodash'
 
 configure({ showSpinner: false })
 
@@ -39,8 +40,11 @@ router.beforeEach(async(to, from) => {
 
     // 判断是否还没添加过路由
     if(getMenubar.menuList.length === 0) {
-        // await GenerateRoutes()
-        await getUser()
+        if (!(to.fullPath =="/Login" || to.fullPath =="/Register")){
+            await getUser()
+        }
+        
+        
         for(let i = 0;i < getMenubar.menuList.length;i++) {
             router.addRoute(getMenubar.menuList[i] as RouteRecordRaw)
         }
