@@ -3,6 +3,7 @@ package main
 import (
 	_ "nft_object/boot"
 	_ "nft_object/router"
+	_ "nft_object/task" // 注册定时器
 
 	"github.com/gogf/gf/frame/g"
 )

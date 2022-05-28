@@ -29,4 +29,15 @@ func init() {
 			group.GET("/search", notice_api.Search)
 		})
 	})
+
+	// 消息推送
+	s.Group("/admin", func(group *ghttp.RouterGroup) {
+		group.Group("/send_msg", func(group *ghttp.RouterGroup) {
+			var send_msg_api = api.SendMsgApi()
+			// group.Middleware(auth.MiddlewareAuth)
+			// 中间件
+			group.GET("/send_msg", send_msg_api.SendMsg)
+		})
+	})
+
 }
