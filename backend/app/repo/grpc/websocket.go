@@ -22,7 +22,7 @@ type webSocket struct {
 }
 
 func (w *webSocket) Conn() (*grpc.ClientConn, error) {
-	return grpc.Dial("127.0.0.1:9558", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	return grpc.Dial("39.108.59.113:9558", grpc.WithTransportCredentials(insecure.NewCredentials()))
 }
 
 // 给指定人员发消息
@@ -35,7 +35,7 @@ func (w *webSocket) SendMsg(ctx context.Context, userid, msg string) error {
 	req := &pb.SendMsgReq{
 		Appid:   w.Appid,
 		Userid:  userid,
-		Message: "I come from grpc client",
+		Message: msg,
 	}
 
 	proxy := pb.NewMessageClient(conn)
