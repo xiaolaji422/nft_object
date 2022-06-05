@@ -16,6 +16,17 @@ type Admin struct {
 	CreateTime   *gtime.Time `orm:"create_time"       json:"create_time"`   // 创建时间
 }
 
+// AdminAccount is the golang structure for table t_admin_account.
+type AdminAccount struct {
+	Id         int         `orm:"id,primary"     json:"id"`          // ID
+	AdminId    int         `orm:"admin_id"       json:"admin_id"`    // 原始的公告id
+	Account    string      `orm:"account,unique" json:"account"`     // 账号
+	Info       string      `orm:"info"           json:"info"`        // 账号信息
+	CreateTime *gtime.Time `orm:"create_time"    json:"create_time"` // 创建时间
+	UpdateTime *gtime.Time `orm:"update_time"    json:"update_time"` // 更新时间
+	Enabled    int         `orm:"enabled"        json:"enabled"`     // 状态描述, 1: 正常使用，0: 删除
+}
+
 // Role is the golang structure for table t_auth_role.
 type Role struct {
 	Id           int         `orm:"id,primary"    json:"id"`            //

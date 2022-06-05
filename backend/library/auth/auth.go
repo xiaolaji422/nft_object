@@ -20,6 +20,7 @@ type signInfo struct {
 }
 
 type AdminInfo struct {
+	Id        int       `json:"id"`         // id
 	Sign      string    `json:"sign"`       // 当前有效的sign
 	LoginName string    `json:"login_name"` // 当前登陆人
 	IsAdmin   int       `json:"is_admin"`   // 是否是超级管理员

@@ -32,3 +32,17 @@ type NoticeWarning struct {
 	UpdateTime  *gtime.Time `orm:"update_time" json:"update_time"` // 更新时间
 	Enabled     int         `orm:"enabled"     json:"enabled"`     // 状态描述, 1: 正常使用，0: 删除
 }
+
+//  自动锁单
+type AccountLock struct {
+	Id         int         `orm:"id,primary"  json:"id"`          // ID
+	AdminId    int         `orm:"admin_id"    json:"admin_id"`    // 账户id
+	AccountId  int         `orm:"account_id"  json:"account_id"`  // 账号id
+	AlbumId    string      `orm:"album_id"    json:"album_id"`    // 商品id
+	AlbumName  string      `orm:"album_name"  json:"album_name"`  // 商品名称
+	Min        string      `orm:"min"         json:"min"`         // 最低价格
+	Max        string      `orm:"max"         json:"max"`         // 最高价格
+	CreateTime *gtime.Time `orm:"create_time" json:"create_time"` // 创建时间
+	UpdateTime *gtime.Time `orm:"update_time" json:"update_time"` // 更新时间
+	Enabled    int         `orm:"enabled"     json:"enabled"`     // 状态描述, 1: 正常使用，0: 删除
+}

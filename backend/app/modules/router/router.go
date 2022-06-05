@@ -27,6 +27,22 @@ func init() {
 			group.Middleware(auth.MiddlewareAuth)
 			// 中间件
 			group.GET("/search", notice_api.Search)
+			group.GET("/price_list", notice_api.PriceList)
+		})
+		group.Group("/account", func(group *ghttp.RouterGroup) {
+			var account_api = api.AccountApi()
+			group.Middleware(auth.MiddlewareAuth)
+			// 中间件
+			group.GET("/list", account_api.List)
+			group.POST("/save", account_api.Save)
+		})
+
+		group.Group("/account_lock", func(group *ghttp.RouterGroup) {
+			var account_lock_api = api.AccountLockApi()
+			group.Middleware(auth.MiddlewareAuth)
+			// 中间件
+			group.GET("/list", account_lock_api.List)
+			group.POST("/save", account_lock_api.Save)
 		})
 	})
 

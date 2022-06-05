@@ -1,18 +1,18 @@
 import request from '@/utils/request';
 
 export default {
-    // 商品搜索
-    serachAlbum(data:any) {
+    // 保存账号
+    Save(data:any) {
         return request({
-            url: '/admin/album/search',
-            method: 'GET',
+            url: '/admin/account/save',
+            method: 'POST',
             params: {...data },
         });
     },
-     // 商品搜索
-     albumDetail(data:any) {
+     // 账号列表
+     List(data:any) {
         return request({
-            url: '/admin/album/price_list',
+            url: '/admin/account/list',
             method: 'GET',
             params: {...data },
         });

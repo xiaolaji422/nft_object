@@ -1,6 +1,5 @@
 package api
 
-// 接口层
 import (
 	"nft_object/app/core"
 	"nft_object/app/modules/service"
@@ -11,46 +10,45 @@ import (
 )
 
 // 公告对外服务变量
-var NFTAlbumApi = func() *album {
-	return &album{
-		proxy: service.NFTAlbumImpl(),
+var AccountApi = func() *account {
+	return &account{
+		proxy: service.AccountImpl(),
 		core: core.CoreApi{
 			CheckRules: core.CheckRule{
-				"QueryNotice": {},
-				"PriceList":   {"album_id@required#album_id不能为空"},
+				"Save": {"account@required#账户不能为空", "info@required#额外信息不能为空"},
 			},
 		},
 	}
 }
 
 // 公告api类
-type album struct {
+type account struct {
 	core  core.CoreApi
-	proxy service.INFTAlbum
+	proxy service.IAccount
 }
 
 // 获取最新公告
-func (a *album) Search(r *ghttp.Request) {
+func (a *account) Save(r *ghttp.Request) {
 	ctx, _, err := a.core.CheckParams(r)
 	if err != nil {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
 	}
 
-	res, err := a.proxy.Search(ctx, 1, r.GetString("keyword"))
+	err = a.proxy.Save(ctx, r.GetString("account"), r.GetString("info"))
 	if err != nil {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
 	}
-	response.Json(r, statusCode.SUCCESS, "ok", res)
+	response.Json(r, statusCode.SUCCESS, "ok")
 }
 
 // 获取商品价格列表
-func (a *album) PriceList(r *ghttp.Request) {
+func (a *account) List(r *ghttp.Request) {
 	ctx, _, err := a.core.CheckParams(r)
 	if err != nil {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
 	}
 
-	res, err := a.proxy.PriceList(ctx, r.GetString("album_id"))
+	res, err := a.proxy.List(ctx)
 	if err != nil {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
 	}

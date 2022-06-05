@@ -193,6 +193,7 @@ func CheckAuthSession(r *ghttp.Request) {
 	r.SetCtxVar(statusCode.SESSION_ADMIN_INFO, admin_info)
 	// 设置名称快捷获取
 	r.SetCtxVar(statusCode.SESSION_CACHE_ADMIN_NAME, login_name)
+	r.SetCtxVar(statusCode.SESSION_CACHE_ADMIN_ID, admin_info.Id)
 }
 
 // 返回JSON数据并退出当前HTTP执行函数。

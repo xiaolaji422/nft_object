@@ -44,6 +44,14 @@ func GetRtx(ctx context.Context) string {
 	return gconv.String(RTX)
 }
 
+func GetAdminId(ctx context.Context) int {
+	RTX := ctx.Value(statusCode.SESSION_CACHE_ADMIN_ID)
+	if g.IsEmpty(RTX) {
+		return 0
+	}
+	return gconv.Int(RTX)
+}
+
 // 获取字符串首字母
 func FirstLetter(s string) string {
 	_, size := utf8.DecodeRuneInString(s)

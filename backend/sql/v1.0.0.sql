@@ -120,3 +120,54 @@ CREATE TABLE `t_notice_warning` (
   KEY `enabled` (`enabled`),
   KEY `notice_time` (`notice_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='公告告警';
+
+
+DROP TABLE IF EXISTS `t_notice_warning`;
+CREATE TABLE `t_notice_warning` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `platform` tinyint(4) NOT NULL DEFAULT '1' COMMENT '公告平台',
+  `original_id` int(11) NOT NULL COMMENT '原始的公告id',
+  `name` varchar(100) DEFAULT '',
+  `description` varchar(512) NOT NULL DEFAULT '' COMMENT '公告告警描述',
+  `content` varchar(2000) DEFAULT '',
+  `notice_url` varchar(500)  DEFAULT '',
+  `notice_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '公告创建时间',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `enabled` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态描述, 1: 正常使用，0: 删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `platform_original`(`platform`,`original_id`),
+  KEY `enabled` (`enabled`),
+  KEY `notice_time` (`notice_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='公告告警';
+
+DROP TABLE IF EXISTS `t_admin_account`;
+CREATE TABLE `t_admin_account` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `admin_id` int(11) NOT NULL COMMENT '原始的公告id',
+  `account` varchar(16) NOT NULL COMMENT '账号',
+  `info` varchar(500) NOT NULL COMMENT '账号信息',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `enabled` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态描述, 1: 正常使用，0: 删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `account`(`account`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='用户账户';
+
+DROP TABLE IF EXISTS `t_account_lock`;
+CREATE TABLE `t_account_lock` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `admin_id` int(11) NOT NULL COMMENT '账户id',
+  `account_id` int(11) NOT NULL COMMENT '账号id',
+  `album_id` varchar(16) NOT NULL COMMENT '商品id',
+  `album_name` varchar(200) NOT NULL COMMENT '商品名称',
+  `min` varchar(12) NOT NULL COMMENT '最低价格',
+  `max` varchar(13) NOT NULL COMMENT '最高价格',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `enabled` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态描述, 1: 正常使用，0: 删除',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `account`(`account_id`,`enabled`),
+  KEY `admin`(`admin_id`),
+  KEY `ablum`(`album_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='账户锁单';

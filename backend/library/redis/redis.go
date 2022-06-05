@@ -39,3 +39,7 @@ func Get(keys string) (interface{}, error) {
 func GetVar(keys string) (*gvar.Var, error) {
 	return g.Redis().DoVar("Get", keys)
 }
+
+func DelVar(keys string) (*gvar.Var, error) {
+	return g.Redis().DoVar("Del", keys)
+}

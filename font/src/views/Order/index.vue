@@ -1,8 +1,8 @@
 <template>
     <div  :class="$style.warpper">
         <div :class="$style['lock-body']">
-            <div :class="$style['lock-item']" v-for="item in 4" :key="item">
-                <lock></lock>
+            <div :class="$style['lock-item']" v-for="item in lockData" :key="item">
+                <lock :account="accountData" :lock="item"></lock>
             </div>
         </div>
         
@@ -10,18 +10,46 @@
 
 </template>
 <script lang="ts" setup>
-import {ref,defineComponent} from "vue"
+import {ref,defineComponent,onMounted} from "vue"
 import Lock from "./components/lock.vue"
-
-const formData  = ref([
-    {admin:"",cookie:""}
-])
+import accountApi from "@/api/account"
+import {notify,confirm} from "@/utils/notify";
+import lockApi from "@/api/account_lock/index"
 defineComponent({
     Lock,
 })
 
-const saveCookie = ()=>{
-    console.log(formData.value,"saveCookie")
+onMounted(()=>{
+    listAccount()
+    listLock()
+})
+
+const accountData=ref([])
+const lockData=ref([{},{},{},{}])
+
+const listAccount = async()=>{
+    const res =await accountApi.List({})
+    if (res && res.data){
+        accountData.value = res.data
+    } else{
+        accountData.value =[]
+    }
+}
+
+const listLock = async()=>{
+    const res =await lockApi.List({})
+    if (res && res.data){
+        for (let index = 0; index < res.data.length; index++) {
+            const element = res.data[index];
+            if( index >3 ){
+                return
+            }
+            lockData.value[index] = element
+            
+        }
+    } else{
+        lockData.value = [{},{},{},{}]
+    }
 }
 
 

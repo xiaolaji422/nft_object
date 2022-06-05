@@ -5,6 +5,8 @@ import (
 	"context"
 	"nft_object/app/core"
 	"nft_object/app/dao"
+	"nft_object/app/entry"
+	"nft_object/app/repo/redis"
 	"nft_object/library/pagenation"
 )
 
@@ -24,6 +26,8 @@ var NFTAlbumImpl = func() INFTAlbum {
 type INFTAlbum interface {
 	// 搜索商品
 	Search(ctx context.Context, platform int, keyword string) (pagenation.PageReult, error)
+	// PriceDetail
+	PriceList(ctx context.Context, albumID string) ([]*entry.Detail, error)
 }
 
 // 公告业务类
@@ -59,4 +63,10 @@ func (s *album) Search(ctx context.Context, platform int, keyword string) (pagen
 		return res, err
 	}
 	return res, err
+}
+
+// 价格列表
+func (s *album) PriceList(ctx context.Context, albumID string) ([]*entry.Detail, error) {
+
+	return redis.AlbumRedisImpl().AlbumDetail(ctx, albumID, 0, 50)
 }

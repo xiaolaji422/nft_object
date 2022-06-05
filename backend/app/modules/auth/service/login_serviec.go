@@ -41,6 +41,7 @@ func (s *loginService) Login(ctx context.Context, login_name, password string) (
 		return nil, err
 	}
 	var adminInfo = auth.AdminInfo{
+		Id:        admin.Id,
 		LoginName: admin.LoginName,
 		Apis:      gconv.SliceStr(apis),
 	}
