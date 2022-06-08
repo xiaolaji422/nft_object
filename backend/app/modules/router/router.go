@@ -12,8 +12,14 @@ import (
 // init 统一路由注册.
 func init() {
 	s := g.Server()
+
 	// 采用驼峰命名方式
 	s.Group("/admin", func(group *ghttp.RouterGroup) {
+		group.Group("/account_lock_free", func(group *ghttp.RouterGroup) {
+			var account_lock_api = api.AccountLockApi()
+			// 中间件
+			group.GET("/lock", account_lock_api.Lock)
+		})
 		group.Group("/notice", func(group *ghttp.RouterGroup) {
 			var notice_api = api.NoticeApi()
 			group.Middleware(auth.MiddlewareAuth)
@@ -42,7 +48,8 @@ func init() {
 			group.Middleware(auth.MiddlewareAuth)
 			// 中间件
 			group.GET("/list", account_lock_api.List)
-			group.POST("/save", account_lock_api.Save)
+			group.POST("/save", account_lock_api.Add)
+			group.POST("/cancel", account_lock_api.Cancel)
 		})
 	})
 

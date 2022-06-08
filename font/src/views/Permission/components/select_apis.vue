@@ -33,7 +33,6 @@ const selectData = ref([])
 const initData =  async function(){
     let apiGroupDataRes = await  permissionStore().getApiGroupData() 
     apiGroupData.value = apiGroupDataRes
-   
     let apiDataRes =await  permissionStore().getApiData() 
     apiData.value = apiDataRes
 }
@@ -42,9 +41,10 @@ const emit = defineEmits(["update:modelValue"])
 watch(()=>selectData,(newValues) => {
   emit("update:modelValue",newValues.value)
 },
- { deep: true })
+{ deep:true})
 
 watch(()=>props.modelValue,(newValues) => {
+    console.log(newValues,"props.modelValue")
   selectData.value = newValues??[]
 })
 

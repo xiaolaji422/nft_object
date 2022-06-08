@@ -30,6 +30,28 @@ func Set(keys string, data interface{}) error {
 	_, err := g.Redis().Do("Set", keys, data)
 	return err
 }
+func HashSetVar(keys, field string, val interface{}) error {
+	_, err := g.Redis().Do("HSet", keys, field, val)
+	return err
+}
+
+func ListRPush(keys, val interface{}) error {
+	_, err := g.Redis().Do("RPUSH", keys, val)
+	return err
+}
+
+func ListLPush(keys, val interface{}) error {
+	_, err := g.Redis().Do("LPUSH", keys, val)
+	return err
+}
+
+func HashGetVar(keys, field string) (*gvar.Var, error) {
+	return g.Redis().DoVar("HGet", keys, field)
+}
+func HashDel(keys, field string) error {
+	_, err := g.Redis().Do("HDEL", keys, field)
+	return err
+}
 
 // 获取
 func Get(keys string) (interface{}, error) {

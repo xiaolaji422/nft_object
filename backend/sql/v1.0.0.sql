@@ -167,7 +167,7 @@ CREATE TABLE `t_account_lock` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `enabled` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态描述, 1: 正常使用，0: 删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `account`(`account_id`,`enabled`),
+  KEY `account`(`account_id`),
   KEY `admin`(`admin_id`),
   KEY `ablum`(`album_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='账户锁单';

@@ -52,6 +52,7 @@ func (s *loginService) Login(ctx context.Context, login_name, password string) (
 	var resData = core.MapI{
 		"sign":       sign,
 		"login_name": login_name,
+		"admin_id":   admin.Id,
 	}
 	return resData, err
 }
@@ -72,6 +73,7 @@ func (s *loginService) UserInfo(r *ghttp.Request) g.Map {
 	// 指定返回信息
 	res := g.Map{
 		"login_name": mapData["login_name"],
+		"admin_id":   mapData["id"],
 	}
 	return res
 }

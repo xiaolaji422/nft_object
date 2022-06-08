@@ -2,7 +2,7 @@
     <div  :class="$style.warpper">
         <div :class="$style['lock-body']">
             <div :class="$style['lock-item']" v-for="item in lockData" :key="item">
-                <lock :account="accountData" :lock="item"></lock>
+                <lock :account="accountData" :lock="item" @refresh="listLock()"></lock>
             </div>
         </div>
         
@@ -17,7 +17,7 @@ import {notify,confirm} from "@/utils/notify";
 import lockApi from "@/api/account_lock/index"
 defineComponent({
     Lock,
-})
+}) 
 
 onMounted(()=>{
     listAccount()
@@ -38,14 +38,13 @@ const listAccount = async()=>{
 
 const listLock = async()=>{
     const res =await lockApi.List({})
-    if (res && res.data){
+    if (res && res.data && res.data.length){
         for (let index = 0; index < res.data.length; index++) {
             const element = res.data[index];
             if( index >3 ){
                 return
             }
             lockData.value[index] = element
-            
         }
     } else{
         lockData.value = [{},{},{},{}]

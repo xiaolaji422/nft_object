@@ -28,6 +28,7 @@ export const useLayoutStore = defineStore({
         // 用户信息
         userInfo: {
             name: '',
+            admin_id:"",
             role: []
         },
         // 标签栏
@@ -240,8 +241,8 @@ export const useLayoutStore = defineStore({
             // WarnningStop()
             // Loadding()
             
-            if (this.userInfo && this.userInfo.name){
-                websocketStore().reigster(this.userInfo.name)
+            if (this.userInfo && this.userInfo.admin_id){
+                websocketStore().reigster(this.userInfo.admin_id)
                return 
             }
             console.log("getUser",111111111111)
@@ -249,7 +250,8 @@ export const useLayoutStore = defineStore({
             
             // WMJS.init(res?.data?.login_name || '未登录');
             this.userInfo.name = res?.data?.login_name
-            websocketStore().reigster(this.userInfo.name)
+            this.userInfo.admin_id = res?.data?.admin_id
+            websocketStore().reigster(this.userInfo.admin_id)
             this.userInfo.role = []
         },
         async GenerateRoutes():Promise<void> {

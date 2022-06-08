@@ -45,7 +45,6 @@ func (r *album) AlbumDetail(ctx context.Context, albumID string, page int, limit
 	for _, item := range list {
 		if str, ok := item.(string); ok {
 			info := r.handleDetail(str)
-			// fmt.Println(info, "AlbumDetail")
 			data = append(data, info)
 		}
 	}

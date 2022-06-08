@@ -22,7 +22,7 @@ type IAccountRedis interface {
 var AccountRedisImpl = func() IAccountRedis {
 	return &account_redis{
 		key:      "nft_object:refresh:account:info:",
-		duration: time.Hour * 2,
+		duration: time.Hour * 20,
 	}
 }
 

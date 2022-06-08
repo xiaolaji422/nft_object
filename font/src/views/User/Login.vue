@@ -61,7 +61,7 @@ const formRender = () => {
             Loadding()
             
             
-            socket.reigster(res.data.login_name)
+            socket.reigster(res.data.admin_id)
         }
             
         // 跳转

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"nft_object/app/core"
 	"nft_object/app/entry"
 	"nft_object/app/modules/service"
@@ -26,11 +25,17 @@ var AccountLockApi = func() *account_lock {
 				// Min       string `orm:"min"               json:"min"`        // 最低价格
 				// Max       string `orm:"max"               json:"max"`        // 最高价格
 
-				"Save": {
+				"Add": {
 					"account_id@required#账户不能为空",
 					"album_id@required#商品不能为空",
 					"min@required#最低价格不能为空",
 					"max@required#最高价格不能为空",
+				},
+				"Cancel": {
+					"id@required#ID不能为空",
+				},
+				"Lock": {
+					"id@required#ID不能为空",
 				},
 			},
 		},
@@ -44,7 +49,7 @@ type account_lock struct {
 }
 
 // 获取最新公告
-func (a *account_lock) Save(r *ghttp.Request) {
+func (a *account_lock) Add(r *ghttp.Request) {
 	ctx, params, err := a.core.CheckParams(r)
 	if err != nil {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
@@ -55,9 +60,33 @@ func (a *account_lock) Save(r *ghttp.Request) {
 	if err != nil {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
 	}
-	fmt.Println(info)
+	err = a.proxy.Add(ctx, &info)
+	if err != nil {
+		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
+	}
+	response.Json(r, statusCode.SUCCESS, "ok")
+}
 
-	err = a.proxy.Save(ctx, &info)
+// 锁单回调
+func (a *account_lock) Lock(r *ghttp.Request) {
+	ctx, params, err := a.core.CheckParams(r)
+	if err != nil {
+		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
+	}
+
+	err = a.proxy.Lock(ctx, r.GetInt("id"), params)
+	if err != nil {
+		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
+	}
+	response.Json(r, statusCode.SUCCESS, "ok")
+}
+
+func (a *account_lock) Cancel(r *ghttp.Request) {
+	ctx, _, err := a.core.CheckParams(r)
+	if err != nil {
+		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
+	}
+	err = a.proxy.Cacnel(ctx, r.GetInt("id"))
 	if err != nil {
 		response.Json(r, statusCode.ERROR_PARAMS, err.Error())
 	}

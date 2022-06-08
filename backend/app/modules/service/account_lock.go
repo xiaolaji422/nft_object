@@ -7,14 +7,18 @@ import (
 	"nft_object/app/dao"
 	"nft_object/app/entry"
 	"nft_object/app/model"
+	"nft_object/app/repo/redis"
 	"nft_object/library/helper"
+	"nft_object/library/str"
 
 	"github.com/gogf/gf/util/gconv"
 )
 
 type IAccountLock interface {
-	Save(ctx context.Context, info *entry.AccountData) error
+	Add(ctx context.Context, info *entry.AccountData) error
 	List(ctx context.Context) ([]*model.AccountLock, error)
+	Lock(ctx context.Context, id int, params core.MapI) error
+	Cacnel(ctx context.Context, id int) error
 }
 
 var AccountLockImpl = func() IAccountLock {
@@ -30,7 +34,7 @@ type account_lock struct {
 }
 
 // 保存自动锁单
-func (s *account_lock) Save(ctx context.Context, info *entry.AccountData) error {
+func (s *account_lock) Add(ctx context.Context, info *entry.AccountData) error {
 	// 保存
 	info.AdminId = helper.GetAdminId(ctx)
 	info.Enabled = 1
@@ -52,8 +56,124 @@ func (s *account_lock) Save(ctx context.Context, info *entry.AccountData) error 
 	if cnt > 4 {
 		return errors.New("最多建立4个自动锁单订单")
 	}
-	_, err = s.GetDB().Ctx(ctx).Data(info).Save()
-	// 删除redis
+	sqlRes, err := s.GetDB().Ctx(ctx).Data(info).FieldsEx("update_time,create_time,id").Insert()
+	if err != nil {
+		return err
+	}
+	id, err := sqlRes.LastInsertId()
+	if err != nil {
+		return err
+	}
+	if id > 0 {
+		// 删除redis详情，设置锁单列表
+		err = s.updateRedis(ctx, int(id))
+	}
+	return err
+}
+
+// 锁单
+func (s *account_lock) Lock(ctx context.Context, id int, params core.MapI) error {
+	// 保存
+	var (
+		adminId    = helper.GetAdminId(ctx)
+		updateData = core.MapI{
+			"id":       id,
+			"admin_id": adminId,
+			"enabled":  1,
+		}
+		updateWhere = core.MapI{
+			"id":       id,
+			"admin_id": adminId,
+			"enabled":  1,
+		}
+	)
+	info, err := s.CheckInfo(id)
+
+	if err != nil {
+		return err
+	}
+
+	if info["enabled"].Int() != 1 {
+		return errors.New("单据状态异常，不支持此操作")
+	}
+
+	// 更新数据库
+	_, err = s.GetDB().Ctx(ctx).Where(updateWhere).Data(updateData).Update()
+	if err != nil {
+		return err
+	}
+	// 发送消息
+	msg := NewMessage("API", str.String(info))
+	err = SendMsgImpl().SendMsg(ctx, info["admin_id"].String(), msg)
+	if err != nil {
+		return err
+	}
+
+	if id > 0 {
+		// 删除redis详情，设置锁单列表
+		err = redis.LockInfoRedisImpl().DelInfo(ctx, int(id))
+	}
+
+	return err
+}
+
+func (s *account_lock) Cacnel(ctx context.Context, id int) error {
+	// 保存
+	var (
+		adminId    = helper.GetAdminId(ctx)
+		updateData = core.MapI{
+			"id":       id,
+			"admin_id": adminId,
+			"enabled":  0,
+		}
+		updateWhere = core.MapI{
+			"id":       id,
+			"admin_id": adminId,
+			"enabled":  1,
+		}
+	)
+	info, err := s.CheckInfo(id)
+
+	if err != nil {
+		return err
+	}
+
+	if info["enabled"].Int() != 1 {
+		return errors.New("单据状态异常，不支持此操作")
+	}
+
+	if info["admin_id"].Int() != adminId {
+		return errors.New("操作异常(code:400003)")
+	}
+
+	sqlRes, err := s.GetDB().Ctx(ctx).Where(updateWhere).Data(updateData).Update()
+
+	if id, err := sqlRes.LastInsertId(); err != nil {
+		return err
+	} else {
+		if id > 0 {
+			// 删除redis详情，设置锁单列表
+			redis.LockInfoRedisImpl().DelInfo(ctx, int(id))
+		}
+	}
+	return err
+}
+
+func (s *account_lock) updateRedis(ctx context.Context, id int) error {
+	res, err := s.CheckInfo(id)
+	if err != nil {
+		return err
+	} else {
+		var info = &model.AccountLock{}
+		if err := res.Struct(&info); err != nil {
+			return err
+		}
+		err = redis.LockInfoRedisImpl().SetInfo(ctx, info)
+		if err != nil {
+			return err
+		}
+		err = redis.LockRedisImpl().SetLockList(ctx, id)
+	}
 	return err
 }
 

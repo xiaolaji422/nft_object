@@ -6,6 +6,7 @@ import (
 	"nft_object/app/core"
 	"nft_object/app/dao"
 	"nft_object/app/model"
+	"nft_object/app/repo/redis"
 	"nft_object/library/helper"
 )
 
@@ -43,7 +44,15 @@ func (s *account) Save(ctx context.Context, account, params string) error {
 	if cnt > 5 {
 		return errors.New("最多持有6个账号")
 	}
-	_, err = s.GetDB().Ctx(ctx).Data(info).Save()
+	sqlRes, err := s.GetDB().Ctx(ctx).Data(info).Save()
+	if id, err := sqlRes.LastInsertId(); err != nil {
+		return err
+	} else {
+		if id > 0 {
+			// 删除redis详情，设置锁单列表
+			s.updateRedis(ctx, int(id))
+		}
+	}
 	return err
 }
 
@@ -59,4 +68,18 @@ func (s *account) List(ctx context.Context) ([]*model.AdminAccount, error) {
 	}
 	err = res.Structs(&data)
 	return data, err
+}
+
+func (s *account) updateRedis(ctx context.Context, id int) error {
+	res, err := s.CheckInfo(id)
+	if err != nil {
+		return err
+	} else {
+		var info = &model.AdminAccount{}
+		if err := res.Struct(&info); err != nil {
+			return err
+		}
+		err = redis.AccountRedisImpl().SetInfo(ctx, info)
+	}
+	return err
 }
