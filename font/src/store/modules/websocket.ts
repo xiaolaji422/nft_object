@@ -10,25 +10,33 @@ export const websocketStore = defineStore({
     id:"websockte",
     state: ()=> ({
         ws:null,
-        appid:422,
-        login_name:""
+        appid:"422nft",
+        userid:""
     }),
     actions:{
-        async sendMsg (data:any){
+        async sendMsg (data:Object){
             if(!this.ws){
                 console.log("我还未注册","sendMsg",data)
                 this.reigster(this.login_name)
             }else{
+                data.appid = this.appid
+                data.userid = this.userid+"nft"
                 this.ws.send(data)
             }
        },
-       async reigster(login_name:any){
-           console.log(login_name,"register")
-           this.login_name = login_name
-            if(!this.ws){
+       async reigster(userid:any){
+           
+           this.userid = userid
+           if(!this.ws){
                 this.ws = socketUtil.socket
                 this.ws.registerWebSorkt()
-            }
+                var self = this
+                setTimeout(() => {
+                    self.sendMsg({userid:userid,appid:this.appid})
+                }, 1000);
+           }else{
+               this.sendMsg({userid:userid,appid:this.appid})
+           }
        }
     }
 })

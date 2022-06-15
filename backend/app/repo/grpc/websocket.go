@@ -10,7 +10,7 @@ import (
 )
 
 func NewWs(appid ...string) *webSocket {
-	var appid_end = "422"
+	var appid_end = "422nft"
 	if len(appid) > 0 {
 		appid_end = appid[0]
 	}
